@@ -4,10 +4,10 @@ import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/box-layout-test/app_components/favorite_thing"
-	"github.com/mieubrisse/box-layout-test/app_components/favorite_things_list"
-	"github.com/mieubrisse/box-layout-test/components"
-	"github.com/mieubrisse/box-layout-test/components/stylebox"
+	"github.com/mieubrisse/teact/app_components/favorite_thing"
+	"github.com/mieubrisse/teact/app_components/favorite_things_list"
+	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/components/stylebox"
 )
 
 type App interface {

@@ -1,7 +1,7 @@
 package flexbox
 
 import (
-	"github.com/mieubrisse/box-layout-test/utilities"
+	"github.com/mieubrisse/teact/utilities"
 )
 
 type axisSizeCalculator func(

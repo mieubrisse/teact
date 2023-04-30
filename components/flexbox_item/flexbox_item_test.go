@@ -2,9 +2,9 @@ package flexbox_item
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/box-layout-test/components/stylebox"
-	"github.com/mieubrisse/box-layout-test/components/test_assertions"
-	"github.com/mieubrisse/box-layout-test/components/text"
+	"github.com/mieubrisse/teact/components/stylebox"
+	"github.com/mieubrisse/teact/components/test_assertions"
+	"github.com/mieubrisse/teact/components/text"
 	"testing"
 )
 

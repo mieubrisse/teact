@@ -1,7 +1,7 @@
 package test_assertions
 
 import (
-	"github.com/mieubrisse/box-layout-test/components"
+	"github.com/mieubrisse/teact/components"
 	"testing"
 )
 

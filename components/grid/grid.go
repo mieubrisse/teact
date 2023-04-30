@@ -1,8 +1,8 @@
 package grid
 
 import (
-	"github.com/mieubrisse/box-layout-test/components"
-	"github.com/mieubrisse/box-layout-test/utilities"
+	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/utilities"
 )
 
 type Grid interface {

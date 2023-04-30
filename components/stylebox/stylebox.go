@@ -2,8 +2,8 @@ package stylebox
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/box-layout-test/components"
-	"github.com/mieubrisse/box-layout-test/utilities"
+	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/utilities"
 )
 
 // Stylebox is a box explicitly for controlling an element's style

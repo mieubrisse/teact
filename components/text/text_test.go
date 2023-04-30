@@ -1,7 +1,7 @@
 package text
 
 import (
-	"github.com/mieubrisse/box-layout-test/components/test_assertions"
+	"github.com/mieubrisse/teact/components/test_assertions"
 	"testing"
 )
 

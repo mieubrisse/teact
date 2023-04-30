@@ -2,9 +2,9 @@ package bubblebath
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/box-layout-test/components"
-	"github.com/mieubrisse/box-layout-test/components/flexbox"
-	"github.com/mieubrisse/box-layout-test/components/flexbox_item"
+	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/components/flexbox"
+	"github.com/mieubrisse/teact/components/flexbox_item"
 )
 
 type BubbleBathOption func(*bubbleBathModel)

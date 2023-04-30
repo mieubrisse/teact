@@ -2,12 +2,12 @@ package favorite_things_list
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/box-layout-test/app_components/favorite_thing"
-	"github.com/mieubrisse/box-layout-test/components"
-	"github.com/mieubrisse/box-layout-test/components/flexbox"
-	"github.com/mieubrisse/box-layout-test/components/flexbox_item"
-	"github.com/mieubrisse/box-layout-test/components/stylebox"
-	"github.com/mieubrisse/box-layout-test/components/text"
+	"github.com/mieubrisse/teact/app_components/favorite_thing"
+	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/components/flexbox"
+	"github.com/mieubrisse/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/components/stylebox"
+	"github.com/mieubrisse/teact/components/text"
 )
 
 type FavoriteThingsList interface {
