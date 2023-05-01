@@ -86,13 +86,13 @@ func TestFixedSizeItem(t *testing.T) {
 
 	box := New(
 		flexbox_item.New(
-			stylebox.New(nameText, stylebox.WithStyle(style)),
+			stylebox.New(nameText, stylebox.WithExistingStyle(style)),
 			flexbox_item.WithMinWidth(flexbox_item.FixedSize(60)),
 			flexbox_item.WithMaxWidth(flexbox_item.FixedSize(60)),
 		),
 		flexbox_item.New(text.New(" ")),
 		flexbox_item.New(
-			stylebox.New(descriptionText, stylebox.WithStyle(style)),
+			stylebox.New(descriptionText, stylebox.WithExistingStyle(style)),
 			flexbox_item.WithHorizontalGrowthFactor(1),
 		),
 	)

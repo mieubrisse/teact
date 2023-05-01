@@ -1,7 +1,7 @@
-package app
+package secret_agent_terminal
 
 import "github.com/mieubrisse/teact/teact/components"
 
-type ReactiveFormApp interface {
+type SecretAgentTerminal interface {
 	components.InteractiveComponent
 }

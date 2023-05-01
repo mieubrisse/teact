@@ -32,7 +32,7 @@ func New() ReactiveMenuApp {
 			text.New("Docs", text.WithAlign(text.AlignCenter)),
 			text.New("About", text.WithAlign(text.AlignCenter)),
 		).SetHorizontalAlignment(flexbox2.AlignCenter),
-		stylebox.WithStyle(style.NewStyle(
+		stylebox.WithExistingStyle(style.NewStyle(
 			style.WithBorder(lipgloss.NormalBorder()),
 			style.WithPadding(0, 1),
 		)),
@@ -44,7 +44,7 @@ func New() ReactiveMenuApp {
 				"on this continent, a new nation, conceived in Liberty, and dedicated to the "+
 				"proposition that all men are created equal.",
 		),
-		stylebox.WithStyle(style.NewStyle(
+		stylebox.WithExistingStyle(style.NewStyle(
 			style.WithPadding(0, 1, 0, 1),
 			style.WithBorder(lipgloss.NormalBorder()),
 		)),

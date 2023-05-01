@@ -14,3 +14,13 @@ func TryUpdate(component components.Component, msg tea.Msg) tea.Cmd {
 	}
 	return nil
 }
+
+// Utility for dealing with tea.Msg events
+// Returns an emptystring if the object isn't a tea.KeyMsg
+func GetMaybeKeyMsgStr(msg tea.Msg) string {
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		return msg.String()
+	}
+	return ""
+}

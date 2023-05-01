@@ -5,7 +5,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mieubrisse/teact/teact/utilities"
-	"github.com/muesli/reflow/wordwrap"
 	"strings"
 )
 
@@ -17,6 +16,7 @@ type textInputImpl struct {
 
 func New(opts ...TextInputOpt) TextInput {
 	innerInput := textinput.New()
+	innerInput.Prompt = ""
 	result := &textInputImpl{
 		innerInput: innerInput,
 		isFocused:  false,
@@ -27,34 +27,28 @@ func New(opts ...TextInputOpt) TextInput {
 	return result
 }
 
-func (i textInputImpl) GetContentMinMax() (int, int, int, int) {
+func (i *textInputImpl) GetContentMinMax() (int, int, int, int) {
 	value := i.innerInput.Value()
 
-	maxWidth := lipgloss.Width(value)
-	minHeight := lipgloss.Height(value)
-
+	maxWidth := lipgloss.Width(value) + 1 // Plus one to account for the cursor
 	minWidth := 0
 	for _, field := range strings.Fields(value) {
-		minWidth = utilities.GetMaxInt(minWidth, len(field))
+		minWidth = utilities.GetMaxInt(minWidth, lipgloss.Width(field))
 	}
+	minWidth += 1 // Cursor
 
-	reflowed := wordwrap.String(value, minWidth)
-	maxHeight := lipgloss.Height(reflowed)
-
-	return minWidth, maxWidth, minHeight, maxHeight
+	return minWidth, maxWidth, 1, 1
 }
 
 func (i *textInputImpl) SetWidthAndGetDesiredHeight(actualWidth int) int {
-	value := i.innerInput.Value()
-	reflowed := wordwrap.String(value, actualWidth)
-	return lipgloss.Height(reflowed)
+	i.innerInput.Width = actualWidth
+	return 1
 }
 
 func (i *textInputImpl) View(actualWidth int, actualHeight int) string {
-	value := i.innerInput.Value()
-	reflowed := wordwrap.String(value, actualWidth)
+	innerView := i.innerInput.View()
 
-	return utilities.Coerce(reflowed, actualWidth, actualHeight)
+	return utilities.Coerce(innerView, actualWidth, actualHeight)
 }
 
 func (i *textInputImpl) Update(msg tea.Msg) tea.Cmd {

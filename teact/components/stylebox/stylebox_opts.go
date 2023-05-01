@@ -7,7 +7,8 @@ import (
 
 type StyleboxOpt func(Stylebox)
 
-func WithNewStyle(styleOpts ...style.StyleOpt) StyleboxOpt {
+// Convenience function for styling the stylebox with a new lipgloss.Style
+func WithStyle(styleOpts ...style.StyleOpt) StyleboxOpt {
 	return func(box Stylebox) {
 		newStyle := lipgloss.NewStyle()
 		for _, opt := range styleOpts {
@@ -17,7 +18,8 @@ func WithNewStyle(styleOpts ...style.StyleOpt) StyleboxOpt {
 	}
 }
 
-func WithStyle(newStyle lipgloss.Style) StyleboxOpt {
+// Set the stylebox's style to an existing lipgloss.Style
+func WithExistingStyle(newStyle lipgloss.Style) StyleboxOpt {
 	return func(box Stylebox) {
 		box.SetStyle(newStyle)
 	}

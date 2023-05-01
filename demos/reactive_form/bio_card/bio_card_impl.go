@@ -59,8 +59,8 @@ func (impl *bioCardImpl) SetName(name string) BioCard {
 	return impl
 }
 
-func (impl *bioCardImpl) SetAge(name string) BioCard {
-	impl.name = name
+func (impl *bioCardImpl) SetAge(age int) BioCard {
+	impl.age = age
 	impl.updateFlexbox()
 	return impl
 }
@@ -106,7 +106,7 @@ func (impl *bioCardImpl) updateFlexbox() {
 		flexboxItems[idx] = flexbox_item.New(
 			stylebox.New(
 				text.New(textFragment),
-				stylebox.WithStyle(fragmentStyle),
+				stylebox.WithExistingStyle(fragmentStyle),
 			),
 		)
 	}

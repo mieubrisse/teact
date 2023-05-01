@@ -6,4 +6,5 @@ type BioCard interface {
 	components.Component
 
 	SetName(name string) BioCard
+	SetAge(age int) BioCard
 }

@@ -7,4 +7,7 @@ type IdentificationForm interface {
 
 	GetName() string
 	SetName(name string) IdentificationForm
+
+	GetAge() int
+	SetAge(age int) IdentificationForm
 }

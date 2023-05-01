@@ -13,3 +13,9 @@ func WithName(name string) IdentificationFormOpts {
 		form.SetName(name)
 	}
 }
+
+func WithAge(age int) IdentificationFormOpts {
+	return func(form IdentificationForm) {
+		form.SetAge(age)
+	}
+}
