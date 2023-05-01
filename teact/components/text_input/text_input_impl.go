@@ -1,4 +1,4 @@
-package input
+package text_input
 
 import (
 	"github.com/charmbracelet/bubbles/textinput"
@@ -9,13 +9,25 @@ import (
 	"strings"
 )
 
-type inputImpl struct {
+type textInputImpl struct {
 	innerInput textinput.Model
 
 	isFocused bool
 }
 
-func (i inputImpl) GetContentMinMax() (int, int, int, int) {
+func New(opts ...TextInputOpt) TextInput {
+	innerInput := textinput.New()
+	result := &textInputImpl{
+		innerInput: innerInput,
+		isFocused:  false,
+	}
+	for _, opt := range opts {
+		opt(result)
+	}
+	return result
+}
+
+func (i textInputImpl) GetContentMinMax() (int, int, int, int) {
 	value := i.innerInput.Value()
 
 	maxWidth := lipgloss.Width(value)
@@ -32,20 +44,20 @@ func (i inputImpl) GetContentMinMax() (int, int, int, int) {
 	return minWidth, maxWidth, minHeight, maxHeight
 }
 
-func (i *inputImpl) SetWidthAndGetDesiredHeight(actualWidth int) int {
+func (i *textInputImpl) SetWidthAndGetDesiredHeight(actualWidth int) int {
 	value := i.innerInput.Value()
 	reflowed := wordwrap.String(value, actualWidth)
 	return lipgloss.Height(reflowed)
 }
 
-func (i *inputImpl) View(actualWidth int, actualHeight int) string {
+func (i *textInputImpl) View(actualWidth int, actualHeight int) string {
 	value := i.innerInput.Value()
 	reflowed := wordwrap.String(value, actualWidth)
 
 	return utilities.Coerce(reflowed, actualWidth, actualHeight)
 }
 
-func (i *inputImpl) Update(msg tea.Msg) tea.Cmd {
+func (i *textInputImpl) Update(msg tea.Msg) tea.Cmd {
 	if !i.isFocused {
 		return nil
 	}
@@ -55,7 +67,7 @@ func (i *inputImpl) Update(msg tea.Msg) tea.Cmd {
 	return cmd
 }
 
-func (i *inputImpl) SetFocus(isFocused bool) tea.Cmd {
+func (i *textInputImpl) SetFocus(isFocused bool) tea.Cmd {
 	i.isFocused = isFocused
 	if isFocused {
 		i.innerInput.Focus()
@@ -65,15 +77,15 @@ func (i *inputImpl) SetFocus(isFocused bool) tea.Cmd {
 	return nil
 }
 
-func (i *inputImpl) IsFocused() bool {
+func (i *textInputImpl) IsFocused() bool {
 	return i.isFocused
 }
 
-func (i *inputImpl) GetValue() string {
+func (i *textInputImpl) GetValue() string {
 	return i.innerInput.Value()
 }
 
-func (i *inputImpl) SetValue(value string) Input {
+func (i *textInputImpl) SetValue(value string) TextInput {
 	i.innerInput.SetValue(value)
 	return i
 }

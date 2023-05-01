@@ -1,10 +1,7 @@
-package input
+package app
 
 import "github.com/mieubrisse/teact/teact/components"
 
-type Input interface {
+type ReactiveFormApp interface {
 	components.InteractiveComponent
-
-	GetValue() string
-	SetValue(value string) Input
 }
