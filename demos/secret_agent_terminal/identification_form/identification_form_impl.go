@@ -3,7 +3,7 @@ package identification_form
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/demos/reactive_form/colors"
+	"github.com/mieubrisse/teact/demos/secret_agent_terminal/colors"
 	"github.com/mieubrisse/teact/teact/components"
 	"github.com/mieubrisse/teact/teact/components/flexbox"
 	"github.com/mieubrisse/teact/teact/components/flexbox_item"

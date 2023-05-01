@@ -2,9 +2,9 @@ package secret_agent_terminal
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/teact/demos/reactive_form/bio_card"
-	"github.com/mieubrisse/teact/demos/reactive_form/colors"
-	"github.com/mieubrisse/teact/demos/reactive_form/identification_form"
+	"github.com/mieubrisse/teact/demos/secret_agent_terminal/bio_card"
+	"github.com/mieubrisse/teact/demos/secret_agent_terminal/colors"
+	"github.com/mieubrisse/teact/demos/secret_agent_terminal/identification_form"
 	"github.com/mieubrisse/teact/teact/components"
 	"github.com/mieubrisse/teact/teact/components/flexbox"
 	"github.com/mieubrisse/teact/teact/components/flexbox_item"

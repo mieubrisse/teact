@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/teact/demos/reactive_form/secret_agent_terminal"
+	"github.com/mieubrisse/teact/demos/secret_agent_terminal/secret_agent_terminal"
 	"github.com/mieubrisse/teact/teact"
 	"os"
 )
