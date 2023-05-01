@@ -12,8 +12,7 @@ import (
 	"time"
 )
 
-var unhighlightedStyle = lipgloss.NewStyle().Bold(false).UnsetBackground()
-var highlightedStyle = lipgloss.NewStyle().Bold(true).Background(lipgloss.Color("#333333"))
+var highlightedBackgroundColor = lipgloss.Color("#333333")
 
 var nameStyle = lipgloss.NewStyle().
 	Foreground(lipgloss.Color("#FFFFFF")).
@@ -64,7 +63,7 @@ func New(timestamp time.Time, name string, tags []string) ContentItem {
 		flexbox_item.New(styledTags).SetHorizontalGrowthFactor(1),
 	)
 
-	styledItemsRow := stylebox.New(itemsRow).SetStyle(unhighlightedStyle)
+	styledItemsRow := stylebox.New(itemsRow)
 
 	toChangeOnHighlightToggle := []stylebox.Stylebox{
 		styledName,
@@ -115,15 +114,12 @@ func (f *impl) IsHighlighted() bool {
 func (f *impl) SetHighlight(isHighlighted bool) highlightable_list.HighlightableComponent {
 	f.isHighlighted = isHighlighted
 
-	var overlayStayle lipgloss.Style
-	if isHighlighted {
-		overlayStayle = highlightedStyle
-	} else {
-		overlayStayle = unhighlightedStyle
-	}
-
 	for _, box := range f.toChangeOnHighlightToggle {
-		box.SetStyle(box.GetStyle().Inherit(overlayStayle))
+		if isHighlighted {
+			box.GetStyle().Bold(true).Background(highlightedBackgroundColor)
+		} else {
+			box.GetStyle().UnsetBold().UnsetBackground()
+		}
 	}
 
 	return f

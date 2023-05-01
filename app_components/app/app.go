@@ -32,6 +32,7 @@ func New() App {
 	itemsList := highlightable_list.New[content_item.ContentItem]()
 	itemsList.SetItems(items)
 	itemsList.SetHighlightedIdx(0)
+	itemsList.SetFocus(true)
 
 	root := stylebox.New(itemsList).SetStyle(lipgloss.NewStyle().Padding(1, 2))
 	root = stylebox.New(root).SetStyle(lipgloss.NewStyle().Padding(1, 2))
@@ -47,25 +48,7 @@ func (a *appImpl) Update(msg tea.Msg) tea.Cmd {
 		return nil
 	}
 
-	/*
-		switch msg := msg.(type) {
-		case tea.KeyMsg:
-			if msg.String() == "enter" {
-				things := a.contentList.GetItems()
-				thingNumber := len(things)
-				newThing := content_item.New().
-					SetName(fmt.Sprintf("Thing #%v", thingNumber)).
-					SetTags(fmt.Sprintf("This is thing %v", thingNumber))
-				things = append(things, newThing)
-				a.contentList.SetItems(things)
-			} else if msg.String() == "backspace" {
-				things := a.contentList.GetItems()
-				a.contentList.SetItems(things[:len(things)-1])
-			}
-		}
-
-	*/
-	return nil
+	return a.itemsList.Update(msg)
 }
 
 func (a *appImpl) SetFocus(isFocused bool) tea.Cmd {

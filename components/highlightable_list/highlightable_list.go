@@ -1,23 +1,30 @@
 package highlightable_list
 
 import (
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/mieubrisse/teact/components"
 	"github.com/mieubrisse/teact/components/list"
 	"github.com/mieubrisse/teact/utilities"
 )
 
 type HighlightableList[T HighlightableComponent] interface {
 	list.List[T]
+	components.InteractiveComponent
 
 	GetHighlightedIdx() int
 	SetHighlightedIdx(idx int) HighlightableList[T]
 	// Scrolls the highlighted item, with safeguards to prevent scrolling off the end of the list
 	Scroll(offset int) HighlightableList[T]
+
+	// TODO something about keeping items highlighted when losing focus
 }
 
 type impl[T HighlightableComponent] struct {
 	list.List[T]
 
 	highlightedIdx int
+
+	isFocused bool
 }
 
 func New[T HighlightableComponent]() HighlightableList[T] {
@@ -47,7 +54,7 @@ func (i *impl[T]) SetHighlightedIdx(newIdx int) HighlightableList[T] {
 }
 
 func (i *impl[T]) Scroll(offset int) HighlightableList[T] {
-	newIdx := utilities.Clamp(i.highlightedIdx, 0, len(i.List.GetItems())-1)
+	newIdx := utilities.Clamp(i.highlightedIdx+offset, 0, len(i.List.GetItems())-1)
 	i.SetHighlightedIdx(newIdx)
 	return i
 }
@@ -65,4 +72,38 @@ func (i *impl[T]) SetItems(newItems []T) list.List[T] {
 	}
 
 	return i
+}
+
+func (i *impl[T]) Update(msg tea.Msg) tea.Cmd {
+	if !i.isFocused {
+		return nil
+	}
+
+	// TDOO extract this to a helper (or embedded struct?) or something
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		switch msg.String() {
+		case "j":
+			i.Scroll(1)
+		case "k":
+			i.Scroll(-1)
+		}
+	}
+	return nil
+}
+
+func (i *impl[T]) SetFocus(isFocused bool) tea.Cmd {
+	i.isFocused = isFocused
+
+	items := i.GetItems()
+	if len(items) == 0 {
+		return nil
+	}
+
+	items[i.highlightedIdx].SetHighlight(isFocused)
+	return nil
+}
+
+func (i *impl[T]) IsFocused() bool {
+	return i.isFocused
 }
