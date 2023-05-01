@@ -11,7 +11,13 @@ import (
 //
 // ====================================================================================================
 func TestCrossAxisTruncationNoGrowth(t *testing.T) {
-	desiredSizes := []int{
+	// These don't do anything for the cross axis
+	minSizes := []int{
+		3,
+		3,
+		3,
+	}
+	maxSizes := []int{
 		10,
 		5,
 		7,
@@ -21,14 +27,20 @@ func TestCrossAxisTruncationNoGrowth(t *testing.T) {
 		false,
 		false,
 	}
-	calcResult := calculateActualCrossAxisSizes(desiredSizes, shouldGrow, 6)
+	calcResult := calculateActualCrossAxisSizes(minSizes, maxSizes, shouldGrow, 6)
 
-	require.Equal(t, calcResult.spaceUsedByChildren, 6)
-	require.Equal(t, calcResult.actualSizes, []int{6, 5, 6})
+	require.Equal(t, 6, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{6, 5, 6}, calcResult.actualSizes)
 }
 
 func TestCrossAxisTruncationWithGrowth(t *testing.T) {
-	desiredSizes := []int{
+	// These don't do anything for the cross axis
+	minSizes := []int{
+		3,
+		3,
+		3,
+	}
+	maxSizes := []int{
 		10,
 		5,
 		7,
@@ -38,14 +50,20 @@ func TestCrossAxisTruncationWithGrowth(t *testing.T) {
 		true,
 		true,
 	}
-	calcResult := calculateActualCrossAxisSizes(desiredSizes, shouldGrow, 6)
+	calcResult := calculateActualCrossAxisSizes(minSizes, maxSizes, shouldGrow, 6)
 
-	require.Equal(t, calcResult.spaceUsedByChildren, 6)
-	require.Equal(t, calcResult.actualSizes, []int{6, 6, 6})
+	require.Equal(t, 6, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{6, 6, 6}, calcResult.actualSizes)
 }
 
 func TestCrossAxisExtraSpaceNoGrowth(t *testing.T) {
-	desiredSizes := []int{
+	// These don't do anything for the cross axis
+	minSizes := []int{
+		3,
+		3,
+		3,
+	}
+	maxSizes := []int{
 		10,
 		5,
 		7,
@@ -55,14 +73,20 @@ func TestCrossAxisExtraSpaceNoGrowth(t *testing.T) {
 		false,
 		false,
 	}
-	calcResult := calculateActualCrossAxisSizes(desiredSizes, shouldGrow, 12)
+	calcResult := calculateActualCrossAxisSizes(minSizes, maxSizes, shouldGrow, 12)
 
-	require.Equal(t, calcResult.spaceUsedByChildren, 10)
-	require.Equal(t, calcResult.actualSizes, []int{10, 5, 7})
+	require.Equal(t, 10, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{10, 5, 7}, calcResult.actualSizes)
 }
 
 func TestCrossAxisExtraSpaceWithGrowth(t *testing.T) {
-	desiredSizes := []int{
+	// These don't do anything for the cross axis
+	minSizes := []int{
+		3,
+		3,
+		3,
+	}
+	maxSizes := []int{
 		10,
 		5,
 		7,
@@ -72,10 +96,10 @@ func TestCrossAxisExtraSpaceWithGrowth(t *testing.T) {
 		true,
 		true,
 	}
-	calcResult := calculateActualCrossAxisSizes(desiredSizes, shouldGrow, 12)
+	calcResult := calculateActualCrossAxisSizes(minSizes, maxSizes, shouldGrow, 12)
 
-	require.Equal(t, calcResult.spaceUsedByChildren, 12)
-	require.Equal(t, calcResult.actualSizes, []int{12, 12, 12})
+	require.Equal(t, 12, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{12, 12, 12}, calcResult.actualSizes)
 }
 
 // ====================================================================================================
@@ -83,10 +107,15 @@ func TestCrossAxisExtraSpaceWithGrowth(t *testing.T) {
 //	Main Axis Tests
 //
 // ====================================================================================================
-func TestMainAxisExtraSpaceNoGrowth(t *testing.T) {
-	desiredSizes := []int{
-		10,
+func TestMainAxisTruncation(t *testing.T) {
+	minSizes := []int{
 		5,
+		5,
+		5,
+	}
+	maxSizes := []int{
+		7,
+		7,
 		7,
 	}
 	shouldGrow := []bool{
@@ -94,33 +123,109 @@ func TestMainAxisExtraSpaceNoGrowth(t *testing.T) {
 		false,
 		false,
 	}
-	calcResult := calculateActualMainAxisSizes(desiredSizes, shouldGrow, 30)
+	calcResult := calculateActualMainAxisSizes(minSizes, maxSizes, shouldGrow, 7)
 
-	require.Equal(t, calcResult.spaceUsedByChildren, 22)
-	require.Equal(t, calcResult.actualSizes, []int{10, 5, 7})
+	require.Equal(t, 7, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{5, 2, 0}, calcResult.actualSizes)
+}
+
+func TestMainAxisAllFixed(t *testing.T) {
+	minSizes := []int{
+		5,
+		5,
+		5,
+	}
+	maxSizes := []int{
+		5,
+		5,
+		5,
+	}
+	shouldGrow := []bool{
+		false,
+		false,
+		false,
+	}
+	calcResult := calculateActualMainAxisSizes(minSizes, maxSizes, shouldGrow, 20)
+
+	require.Equal(t, 15, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{5, 5, 5}, calcResult.actualSizes)
+}
+
+func TestMainAxisSomeFixed(t *testing.T) {
+	minSizes := []int{
+		5,
+		5,
+		5,
+	}
+	maxSizes := []int{
+		5,
+		10,
+		5,
+	}
+	shouldGrow := []bool{
+		false,
+		false,
+		false,
+	}
+	calcResult := calculateActualMainAxisSizes(minSizes, maxSizes, shouldGrow, 22)
+
+	require.Equal(t, 20, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{5, 10, 5}, calcResult.actualSizes)
+}
+
+func TestMainAxisEvenGrowth(t *testing.T) {
+	minSizes := []int{
+		5,
+		5,
+		5,
+	}
+	maxSizes := []int{
+		8,
+		8,
+		8,
+	}
+	shouldGrow := []bool{
+		false,
+		false,
+		false,
+	}
+	calcResult := calculateActualMainAxisSizes(minSizes, maxSizes, shouldGrow, 18)
+
+	require.Equal(t, 18, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{6, 6, 6}, calcResult.actualSizes)
 }
 
 func TestMainAxisExtraSpaceWithEvenGrowth(t *testing.T) {
+	minSizes := []int{
+		6,
+		3,
+		3,
+	}
 	// Chose these numbers so growth happens evenly
-	desiredSizes := []int{
-		10,
-		5,
-		5,
+	maxSizes := []int{
+		12,
+		6,
+		6,
 	}
 	shouldGrow := []bool{
 		true,
 		true,
 		true,
 	}
-	calcResult := calculateActualMainAxisSizes(desiredSizes, shouldGrow, 40)
+	calcResult := calculateActualMainAxisSizes(minSizes, maxSizes, shouldGrow, 30)
 
-	require.Equal(t, calcResult.spaceUsedByChildren, 40)
-	require.Equal(t, calcResult.actualSizes, []int{20, 10, 10})
+	require.Equal(t, 30, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{14, 8, 8}, calcResult.actualSizes)
 }
 
 func TestMainAxisExtraSpaceWithUnvenGrowth(t *testing.T) {
+	minSizes := []int{
+		5,
+		3,
+		3,
+	}
 	// Chose these numbers so growth happens evenly
-	desiredSizes := []int{
+	maxSizes := []int{
 		10,
 		5,
 		5,
@@ -130,25 +235,8 @@ func TestMainAxisExtraSpaceWithUnvenGrowth(t *testing.T) {
 		true,
 		false,
 	}
-	calcResult := calculateActualMainAxisSizes(desiredSizes, shouldGrow, 40)
+	calcResult := calculateActualMainAxisSizes(minSizes, maxSizes, shouldGrow, 40)
 
-	require.Equal(t, calcResult.spaceUsedByChildren, 40)
-	require.Equal(t, calcResult.actualSizes, []int{10, 25, 5})
-}
-
-func TestMainAxisShrink(t *testing.T) {
-	desiredSizes := []int{
-		8,
-		2,
-		2,
-	}
-	shouldGrow := []bool{
-		false,
-		false,
-		false,
-	}
-	calcResult := calculateActualMainAxisSizes(desiredSizes, shouldGrow, 6)
-
-	require.Equal(t, calcResult.spaceUsedByChildren, 6)
-	require.Equal(t, calcResult.actualSizes, []int{4, 1, 1})
+	require.Equal(t, 40, calcResult.spaceUsedByChildren)
+	require.Equal(t, []int{10, 25, 5}, calcResult.actualSizes)
 }

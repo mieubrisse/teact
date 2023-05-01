@@ -24,6 +24,13 @@ type Flexbox interface {
 	SetVerticalAlignment(alignment AxisAlignment) Flexbox
 }
 
+type minMaxChildDimensionsCache struct {
+	minWidths  []int
+	maxWidths  []int
+	minHeights []int
+	maxHeights []int
+}
+
 type flexboxImpl struct {
 	children []flexbox_item.FlexboxItem
 
@@ -33,6 +40,9 @@ type flexboxImpl struct {
 	verticalAlignment   AxisAlignment
 
 	// -------------------- Calculation Caching -----------------------
+	// The min/max widths/heights of children
+	childDimensionsCache minMaxChildDimensionsCache
+
 	// The actual widths each child will get (cached between GetContentHeightForGivenWidth and View)
 	actualChildWidthsCache axisSizeCalculationResults
 
@@ -111,6 +121,14 @@ func (b *flexboxImpl) GetContentMinMax() (int, int, int, int) {
 		childMinWidths[idx], childMaxWidths[idx], childMinHeights[idx], childMaxHeights[idx] = item.GetContentMinMax()
 	}
 
+	// Cache, so that future steps don't need to recalculate this
+	b.childDimensionsCache = minMaxChildDimensionsCache{
+		minWidths:  childMinWidths,
+		maxWidths:  childMaxWidths,
+		minHeights: childMinHeights,
+		maxHeights: childMaxHeights,
+	}
+
 	minWidth := b.direction.reduceChildWidths(childMinWidths)
 	maxWidth := b.direction.reduceChildWidths(childMaxWidths)
 
@@ -126,13 +144,16 @@ func (b *flexboxImpl) GetContentHeightForGivenWidth(width int) int {
 	}
 
 	// Width
-	desiredChildWidths := make([]int, len(b.children)) // NOTE: we actually already calculated this above, with GetContentMinMax. Maybe cache?
 	shouldGrowWidths := make([]bool, len(b.children))
 	for idx, item := range b.children {
-		_, desiredChildWidths[idx], _, _ = item.GetContentMinMax()
 		shouldGrowWidths[idx] = item.GetMaxWidth().ShouldGrow()
 	}
-	actualWidthsCalcResults := b.direction.getActualWidths(desiredChildWidths, shouldGrowWidths, width)
+	actualWidthsCalcResults := b.direction.getActualWidths(
+		b.childDimensionsCache.minWidths,
+		b.childDimensionsCache.maxWidths,
+		shouldGrowWidths,
+		width,
+	)
 
 	// Cache the result, so we don't have to recalculate it in View
 	b.actualChildWidthsCache = actualWidthsCalcResults
@@ -163,7 +184,12 @@ func (b *flexboxImpl) View(width int, height int) string {
 	for idx, item := range b.children {
 		shouldGrowHeights[idx] = item.GetMaxHeight().ShouldGrow()
 	}
-	actualHeightsCalcResult := b.direction.getActualHeights(b.desiredChildHeightsGivenWidthCache, shouldGrowHeights, height)
+	actualHeightsCalcResult := b.direction.getActualHeights(
+		b.childDimensionsCache.minHeights,
+		b.desiredChildHeightsGivenWidthCache,
+		shouldGrowHeights,
+		height,
+	)
 
 	actualHeights := actualHeightsCalcResult.actualSizes
 	// heightNotUsedByChildren := utilities.GetMaxInt(0, height-actualHeightsCalcResult.spaceUsedByChildren)
