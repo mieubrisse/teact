@@ -35,7 +35,7 @@ func (s styleboxImpl) GetStyle() lipgloss.Style {
 	return s.style
 }
 
-func (s styleboxImpl) SetStyle(style lipgloss.Style) Stylebox {
+func (s *styleboxImpl) SetStyle(style lipgloss.Style) Stylebox {
 	s.style = style.Copy().
 		UnsetMargins().
 		UnsetAlign().

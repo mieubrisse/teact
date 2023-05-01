@@ -9,7 +9,7 @@ type HighlightableList[T HighlightableComponent] interface {
 	list.List[T]
 
 	GetHighlightedIdx() int
-	SetHighlightedIdx() int
+	SetHighlightedIdx(idx int) HighlightableList[T]
 	// Scrolls the highlighted item, with safeguards to prevent scrolling off the end of the list
 	Scroll(offset int) HighlightableList[T]
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mieubrisse/teact/app_components/content_item"
 	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/list"
+	"github.com/mieubrisse/teact/components/highlightable_list"
 	"github.com/mieubrisse/teact/components/stylebox"
 	"time"
 )
@@ -15,9 +15,9 @@ type App interface {
 }
 
 type appImpl struct {
-	itemsList list.List[content_item.ContentItem]
+	components.Component
 
-	root components.Component
+	itemsList highlightable_list.HighlightableList[content_item.ContentItem]
 
 	isFocused bool
 }
@@ -29,27 +29,17 @@ func New() App {
 		content_item.New(time.Now(), "something-else.md", []string{"general-reference/wealthdraft"}),
 	}
 
-	itemsList := list.New[content_item.ContentItem]().SetItems(items)
+	itemsList := highlightable_list.New[content_item.ContentItem]()
+	itemsList.SetItems(items)
+	itemsList.SetHighlightedIdx(0)
 
 	root := stylebox.New(itemsList).SetStyle(lipgloss.NewStyle().Padding(1, 2))
 	root = stylebox.New(root).SetStyle(lipgloss.NewStyle().Padding(1, 2))
 	return &appImpl{
+		Component: root,
 		itemsList: itemsList,
-		root:      root,
 		isFocused: false,
 	}
-}
-
-func (a appImpl) GetContentMinMax() (minWidth, maxWidth, minHeight, maxHeight int) {
-	return a.root.GetContentMinMax()
-}
-
-func (a appImpl) GetContentHeightForGivenWidth(width int) int {
-	return a.root.GetContentHeightForGivenWidth(width)
-}
-
-func (a appImpl) View(width int, height int) string {
-	return a.root.View(width, height)
 }
 
 func (a *appImpl) Update(msg tea.Msg) tea.Cmd {

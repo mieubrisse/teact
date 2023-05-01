@@ -5,20 +5,26 @@ import (
 	"github.com/mieubrisse/teact/components"
 	"github.com/mieubrisse/teact/components/flexbox"
 	"github.com/mieubrisse/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/components/highlightable_list"
 	"github.com/mieubrisse/teact/components/stylebox"
 	"github.com/mieubrisse/teact/components/text"
 	"strings"
 	"time"
 )
 
+var unhighlightedStyle = lipgloss.NewStyle().Bold(false).UnsetBackground()
+var highlightedStyle = lipgloss.NewStyle().Bold(true).Background(lipgloss.Color("#333333"))
+
 var nameStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.Color("#FF4444"))
+	Foreground(lipgloss.Color("#FFFFFF")).
+	Padding(0, 1, 0, 0)
 
 var tagsStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.Color("#4444FF"))
+	Foreground(lipgloss.Color("#FF5555"))
 
 type ContentItem interface {
 	components.Component
+	highlightable_list.HighlightableComponent
 
 	GetTimestamp() time.Time
 
@@ -30,6 +36,9 @@ type ContentItem interface {
 }
 
 type impl struct {
+	// Root item
+	components.Component
+
 	timestamp time.Time
 	name      string
 	tags      []string
@@ -37,28 +46,41 @@ type impl struct {
 	nameText text.Text
 	tagsText text.Text
 
-	root components.Component
+	isHighlighted             bool
+	toChangeOnHighlightToggle []stylebox.Stylebox
 }
 
 func New(timestamp time.Time, name string, tags []string) ContentItem {
 	nameText := text.New(name)
 	tagsText := text.New(strings.Join(tags, " "))
 
-	root := flexbox.NewWithContents(
-		flexbox_item.New(stylebox.New(nameText).SetStyle(nameStyle)).
+	styledName := stylebox.New(nameText).SetStyle(nameStyle)
+	styledTags := stylebox.New(nameText).SetStyle(tagsStyle)
+
+	itemsRow := flexbox.NewWithContents(
+		flexbox_item.New(styledName).
 			SetMinWidth(flexbox_item.FixedSize(20)).
 			SetMaxWidth(flexbox_item.FixedSize(30)),
-		flexbox_item.New(text.New(" ")).SetMinWidth(flexbox_item.FixedSize(1)),
-		flexbox_item.New(stylebox.New(tagsText).SetStyle(tagsStyle)).SetHorizontalGrowthFactor(1),
+		flexbox_item.New(styledTags).SetHorizontalGrowthFactor(1),
 	)
 
-	return &impl{
+	styledItemsRow := stylebox.New(itemsRow).SetStyle(unhighlightedStyle)
 
-		name:     name,
-		tags:     tags,
-		nameText: nameText,
-		tagsText: tagsText,
-		root:     root,
+	toChangeOnHighlightToggle := []stylebox.Stylebox{
+		styledName,
+		styledTags,
+		styledItemsRow,
+	}
+
+	return &impl{
+		Component:                 styledItemsRow,
+		timestamp:                 timestamp,
+		name:                      name,
+		tags:                      tags,
+		nameText:                  nameText,
+		tagsText:                  tagsText,
+		isHighlighted:             false,
+		toChangeOnHighlightToggle: toChangeOnHighlightToggle,
 	}
 }
 
@@ -86,14 +108,23 @@ func (f *impl) SetTags(tags []string) ContentItem {
 	return f
 }
 
-func (f impl) GetContentMinMax() (minWidth, maxWidth, minHeight, maxHeight int) {
-	return f.root.GetContentMinMax()
+func (f *impl) IsHighlighted() bool {
+	return f.isHighlighted
 }
 
-func (f impl) GetContentHeightForGivenWidth(width int) int {
-	return f.root.GetContentHeightForGivenWidth(width)
-}
+func (f *impl) SetHighlight(isHighlighted bool) highlightable_list.HighlightableComponent {
+	f.isHighlighted = isHighlighted
 
-func (f impl) View(width int, height int) string {
-	return f.root.View(width, height)
+	var overlayStayle lipgloss.Style
+	if isHighlighted {
+		overlayStayle = highlightedStyle
+	} else {
+		overlayStayle = unhighlightedStyle
+	}
+
+	for _, box := range f.toChangeOnHighlightToggle {
+		box.SetStyle(box.GetStyle().Inherit(overlayStayle))
+	}
+
+	return f
 }
