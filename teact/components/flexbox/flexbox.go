@@ -1,8 +1,8 @@
 package flexbox
 
 import (
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 )
 
 // NOTE: This class does some stateful caching, so when you're testing methods like "View" make sure you call the

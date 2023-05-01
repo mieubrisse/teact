@@ -2,7 +2,7 @@ package text
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/teact/components"
 	"github.com/muesli/reflow/ansi"
 	"github.com/muesli/reflow/wordwrap"
 	"strings"

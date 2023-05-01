@@ -1,6 +1,8 @@
 package flexbox
 
-import "github.com/mieubrisse/teact/utilities"
+import (
+	"github.com/mieubrisse/teact/teact/utilities"
+)
 
 // Reduces all the child values for a given dimension to a single value for the parent
 // Used for calculating what the flexbox's min width is based off child min widths, flexbox max height based off childrens', etc.

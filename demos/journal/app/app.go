@@ -3,19 +3,19 @@ package app
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/highlightable_list"
-	"github.com/mieubrisse/teact/components/stylebox"
 	"github.com/mieubrisse/teact/demos/journal/content_item"
+	components2 "github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/components/highlightable_list"
+	"github.com/mieubrisse/teact/teact/components/stylebox"
 	"time"
 )
 
 type App interface {
-	components.InteractiveComponent
+	components2.InteractiveComponent
 }
 
 type appImpl struct {
-	components.Component
+	components2.Component
 
 	itemsList highlightable_list.HighlightableList[content_item.ContentItem]
 

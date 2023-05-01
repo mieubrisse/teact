@@ -3,7 +3,7 @@ package flexbox_item
 import (
 	"fmt"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/teact/components"
 )
 
 type OverflowStyle int

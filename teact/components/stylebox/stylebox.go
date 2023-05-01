@@ -2,8 +2,8 @@ package stylebox
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/utilities"
+	"github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 type StyleboxOpt func(stylebox Stylebox)

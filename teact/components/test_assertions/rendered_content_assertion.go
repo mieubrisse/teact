@@ -1,7 +1,7 @@
 package test_assertions
 
 import (
-	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/teact/components"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

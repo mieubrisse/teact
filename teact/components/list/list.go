@@ -1,27 +1,27 @@
 package list
 
 import (
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/flexbox"
-	"github.com/mieubrisse/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/teact/components"
+	flexbox2 "github.com/mieubrisse/teact/teact/components/flexbox"
+	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 )
 
 // Very simple container around a vertically-oriented flexbox
 type List[T components.Component] interface {
-	flexbox.Flexbox
+	flexbox2.Flexbox
 
 	GetItems() []T
 	SetItems(items []T) List[T]
 }
 
 type impl[T components.Component] struct {
-	flexbox.Flexbox
+	flexbox2.Flexbox
 
 	items []T
 }
 
 func New[T components.Component]() List[T] {
-	root := flexbox.New().SetDirection(flexbox.Column)
+	root := flexbox2.New().SetDirection(flexbox2.Column)
 	return &impl[T]{
 		items:   []T{},
 		Flexbox: root,

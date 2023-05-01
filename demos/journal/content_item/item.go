@@ -2,12 +2,12 @@ package content_item
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/flexbox"
-	"github.com/mieubrisse/teact/components/flexbox_item"
-	"github.com/mieubrisse/teact/components/highlightable_list"
-	"github.com/mieubrisse/teact/components/stylebox"
-	"github.com/mieubrisse/teact/components/text"
+	"github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/components/flexbox"
+	flexbox_item2 "github.com/mieubrisse/teact/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/teact/components/highlightable_list"
+	"github.com/mieubrisse/teact/teact/components/stylebox"
+	"github.com/mieubrisse/teact/teact/components/text"
 	"strings"
 	"time"
 )
@@ -57,10 +57,10 @@ func New(timestamp time.Time, name string, tags []string) ContentItem {
 	styledTags := stylebox.New(nameText).SetStyle(tagsStyle)
 
 	itemsRow := flexbox.NewWithContents(
-		flexbox_item.New(styledName).
-			SetMinWidth(flexbox_item.FixedSize(20)).
-			SetMaxWidth(flexbox_item.FixedSize(30)),
-		flexbox_item.New(styledTags).SetHorizontalGrowthFactor(1),
+		flexbox_item2.New(styledName).
+			SetMinWidth(flexbox_item2.FixedSize(20)).
+			SetMaxWidth(flexbox_item2.FixedSize(30)),
+		flexbox_item2.New(styledTags).SetHorizontalGrowthFactor(1),
 	)
 
 	styledItemsRow := stylebox.New(itemsRow)

@@ -2,9 +2,9 @@ package highlightable_list
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/list"
-	"github.com/mieubrisse/teact/utilities"
+	"github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/components/list"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 type HighlightableList[T HighlightableComponent] interface {

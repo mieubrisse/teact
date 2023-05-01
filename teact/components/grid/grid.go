@@ -1,8 +1,8 @@
 package grid
 
 import (
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/utilities"
+	"github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 type Grid interface {

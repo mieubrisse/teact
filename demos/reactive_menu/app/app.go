@@ -2,13 +2,13 @@ package app
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/flexbox"
-	"github.com/mieubrisse/teact/components/flexbox_item"
-	"github.com/mieubrisse/teact/components/list"
-	"github.com/mieubrisse/teact/components/stylebox"
-	"github.com/mieubrisse/teact/components/text"
-	"github.com/mieubrisse/teact/style"
+	"github.com/mieubrisse/teact/teact/components"
+	flexbox2 "github.com/mieubrisse/teact/teact/components/flexbox"
+	flexbox_item2 "github.com/mieubrisse/teact/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/teact/components/list"
+	"github.com/mieubrisse/teact/teact/components/stylebox"
+	"github.com/mieubrisse/teact/teact/components/text"
+	"github.com/mieubrisse/teact/teact/style"
 )
 
 // This is an app with a sidebar (like we'd see on websites), but which switches to a stacked orientation when
@@ -21,7 +21,7 @@ type impl struct {
 	// Root component
 	components.Component
 
-	box flexbox.Flexbox
+	box flexbox2.Flexbox
 }
 
 func New() ReactiveMenuApp {
@@ -31,7 +31,7 @@ func New() ReactiveMenuApp {
 			text.New("Search", text.WithAlign(text.AlignCenter)),
 			text.New("Docs", text.WithAlign(text.AlignCenter)),
 			text.New("About", text.WithAlign(text.AlignCenter)),
-		).SetHorizontalAlignment(flexbox.AlignCenter),
+		).SetHorizontalAlignment(flexbox2.AlignCenter),
 		stylebox.WithStyle(style.NewStyle(
 			style.WithBorder(lipgloss.NormalBorder()),
 			style.WithPadding(0, 1),
@@ -50,17 +50,17 @@ func New() ReactiveMenuApp {
 		)),
 	)
 
-	box := flexbox.NewWithContents(
-		flexbox_item.New(
+	box := flexbox2.NewWithContents(
+		flexbox_item2.New(
 			menu,
-			flexbox_item.WithMaxWidth(flexbox_item.FixedSize(20)),
-			flexbox_item.WithHorizontalGrowthFactor(2),
-			flexbox_item.WithVerticalGrowthFactor(1),
+			flexbox_item2.WithMaxWidth(flexbox_item2.FixedSize(20)),
+			flexbox_item2.WithHorizontalGrowthFactor(2),
+			flexbox_item2.WithVerticalGrowthFactor(1),
 		),
-		flexbox_item.New(
+		flexbox_item2.New(
 			content,
-			flexbox_item.WithHorizontalGrowthFactor(5),
-			flexbox_item.WithVerticalGrowthFactor(1),
+			flexbox_item2.WithHorizontalGrowthFactor(5),
+			flexbox_item2.WithVerticalGrowthFactor(1),
 		),
 	)
 
@@ -72,9 +72,9 @@ func New() ReactiveMenuApp {
 
 func (impl *impl) SetWidthAndGetDesiredHeight(actualWidth int) int {
 	if actualWidth >= 60 {
-		impl.box.SetDirection(flexbox.Row)
+		impl.box.SetDirection(flexbox2.Row)
 	} else {
-		impl.box.SetDirection(flexbox.Column)
+		impl.box.SetDirection(flexbox2.Column)
 	}
 	return impl.Component.SetWidthAndGetDesiredHeight(actualWidth)
 }

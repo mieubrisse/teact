@@ -2,9 +2,9 @@ package bubblebath
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/teact/components"
-	"github.com/mieubrisse/teact/components/flexbox"
-	"github.com/mieubrisse/teact/components/flexbox_item"
+	components2 "github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/components/flexbox"
+	flexbox_item2 "github.com/mieubrisse/teact/teact/components/flexbox_item"
 )
 
 type BubbleBathOption func(*bubbleBathModel)
@@ -33,25 +33,25 @@ type bubbleBathModel struct {
 	// Sequences matching String() of tea.KeyMsg that will quit the program
 	quitSequenceSet map[string]bool
 
-	appBox components.Component
+	appBox components2.Component
 
-	app components.Component
+	app components2.Component
 
 	width  int
 	height int
 }
 
 // NewBubbleBathModel creates a new tea.Model for tea.NewProgram based off the given InteractiveComponent
-func NewBubbleBathModel(app components.Component, options ...BubbleBathOption) tea.Model {
+func NewBubbleBathModel(app components2.Component, options ...BubbleBathOption) tea.Model {
 	// We put the user's app in a box here so that we can get their app auto-resizing with the terminal
-	appBox := flexbox.New().SetChildren([]flexbox_item.FlexboxItem{
-		flexbox_item.New(app).
+	appBox := flexbox.New().SetChildren([]flexbox_item2.FlexboxItem{
+		flexbox_item2.New(app).
 			// TODO allow these to be configured?
-			SetMinWidth(flexbox_item.MinContent).
-			SetMaxWidth(flexbox_item.MaxContent).
+			SetMinWidth(flexbox_item2.MinContent).
+			SetMaxWidth(flexbox_item2.MaxContent).
 			SetHorizontalGrowthFactor(1).
-			SetMinHeight(flexbox_item.MinContent).
-			SetMaxHeight(flexbox_item.MaxContent).
+			SetMinHeight(flexbox_item2.MinContent).
+			SetMaxHeight(flexbox_item2.MaxContent).
 			SetVerticalGrowthFactor(1),
 	})
 	result := &bubbleBathModel{
@@ -89,7 +89,7 @@ func (b *bubbleBathModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	// Pass the message down to the app, if it's interactive
 	var cmd tea.Cmd
 	switch app := b.app.(type) {
-	case components.InteractiveComponent:
+	case components2.InteractiveComponent:
 		cmd = app.Update(msg)
 	}
 
@@ -111,7 +111,7 @@ func (b bubbleBathModel) GetAppComponent() InteractiveComponent {
 }
 */
 
-func RunBubbleBathProgram[T components.Component](
+func RunBubbleBathProgram[T components2.Component](
 	appComponent T,
 	bubbleBathOptions []BubbleBathOption,
 	teaOptions []tea.ProgramOption,

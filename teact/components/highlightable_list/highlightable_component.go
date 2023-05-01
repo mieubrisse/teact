@@ -1,6 +1,8 @@
 package highlightable_list
 
-import "github.com/mieubrisse/teact/components"
+import (
+	"github.com/mieubrisse/teact/teact/components"
+)
 
 type HighlightableComponent interface {
 	components.Component

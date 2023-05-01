@@ -1,7 +1,7 @@
 package text
 
 import (
-	"github.com/mieubrisse/teact/components/test_assertions"
+	test_assertions2 "github.com/mieubrisse/teact/teact/components/test_assertions"
 	"testing"
 )
 
@@ -12,10 +12,10 @@ func TestShortString(t *testing.T) {
 	minHeight := 1
 	maxHeight := 4
 
-	sizeAssertions := test_assertions.FlattenAssertionGroups(
-		test_assertions.GetDefaultAssertions(),
-		test_assertions.GetContentSizeAssertions(minWidth, maxWidth, minHeight, maxHeight),
-		test_assertions.GetHeightAtWidthAssertions(
+	sizeAssertions := test_assertions2.FlattenAssertionGroups(
+		test_assertions2.GetDefaultAssertions(),
+		test_assertions2.GetContentSizeAssertions(minWidth, maxWidth, minHeight, maxHeight),
+		test_assertions2.GetHeightAtWidthAssertions(
 			minWidth, maxHeight, // min content width
 			8, 3, // in the middle
 			maxWidth, minHeight, // max content width
@@ -26,7 +26,7 @@ func TestShortString(t *testing.T) {
 	// Verify that the size assertions are valid at all alignments
 	for _, alignment := range []TextAlignment{AlignLeft, AlignCenter, AlignRight} {
 		component := New(str).SetTextAlignment(alignment)
-		test_assertions.CheckAll(t, sizeAssertions, component)
+		test_assertions2.CheckAll(t, sizeAssertions, component)
 	}
 }
 
@@ -37,10 +37,10 @@ func TestStringWithNewlines(t *testing.T) {
 	minHeight := 3
 	maxHeight := 9
 
-	sizeAssertions := test_assertions.FlattenAssertionGroups(
-		test_assertions.GetDefaultAssertions(),
-		test_assertions.GetContentSizeAssertions(minWidth, maxWidth, minHeight, maxHeight),
-		test_assertions.GetHeightAtWidthAssertions(
+	sizeAssertions := test_assertions2.FlattenAssertionGroups(
+		test_assertions2.GetDefaultAssertions(),
+		test_assertions2.GetContentSizeAssertions(minWidth, maxWidth, minHeight, maxHeight),
+		test_assertions2.GetHeightAtWidthAssertions(
 			0, 0, // invisible
 			minWidth, maxHeight, // min content width
 			10, 7, // in the middle
@@ -52,35 +52,35 @@ func TestStringWithNewlines(t *testing.T) {
 	// Verify that the size assertions are valid at all alignments
 	for _, alignment := range []TextAlignment{AlignLeft, AlignCenter, AlignRight} {
 		component := New(str).SetTextAlignment(alignment)
-		test_assertions.CheckAll(t, sizeAssertions, component)
+		test_assertions2.CheckAll(t, sizeAssertions, component)
 	}
 }
 
 func TestInvisibleString(t *testing.T) {
 	str := ""
 
-	sizeAssertions := test_assertions.FlattenAssertionGroups(
-		test_assertions.GetDefaultAssertions(),
-		test_assertions.GetContentSizeAssertions(0, 0, 1, 1),
-		test_assertions.GetHeightAtWidthAssertions(
+	sizeAssertions := test_assertions2.FlattenAssertionGroups(
+		test_assertions2.GetDefaultAssertions(),
+		test_assertions2.GetContentSizeAssertions(0, 0, 1, 1),
+		test_assertions2.GetHeightAtWidthAssertions(
 			0, 1,
 			1, 1,
 			10, 1,
 		),
 	)
 
-	test_assertions.CheckAll(t, sizeAssertions, New(str))
+	test_assertions2.CheckAll(t, sizeAssertions, New(str))
 }
 
 func TestSmallWidths(t *testing.T) {
 	text := "\nThis is a\nmultiline string\n\n"
 	component := New(text)
 
-	assertions := test_assertions.FlattenAssertionGroups(
-		test_assertions.GetRenderedContentAssertion(2, 2, "  \nTh"),
-		test_assertions.GetRenderedContentAssertion(2, 5, "  \nTh\nis\nis\na "),
-		test_assertions.GetRenderedContentAssertion(5, 5, "     \nThis \nis a \nmulti\nline "),
+	assertions := test_assertions2.FlattenAssertionGroups(
+		test_assertions2.GetRenderedContentAssertion(2, 2, "  \nTh"),
+		test_assertions2.GetRenderedContentAssertion(2, 5, "  \nTh\nis\nis\na "),
+		test_assertions2.GetRenderedContentAssertion(5, 5, "     \nThis \nis a \nmulti\nline "),
 	)
 
-	test_assertions.CheckAll(t, assertions, component)
+	test_assertions2.CheckAll(t, assertions, component)
 }
