@@ -2,9 +2,9 @@ package flexbox
 
 import (
 	"github.com/charmbracelet/lipgloss"
+	"github.com/mieubrisse/teact/teact/component_test"
 	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 	"github.com/mieubrisse/teact/teact/components/stylebox"
-	"github.com/mieubrisse/teact/teact/components/test_assertions"
 	"github.com/mieubrisse/teact/teact/components/text"
 	"testing"
 )
@@ -28,9 +28,9 @@ func TestColumnLayout(t *testing.T) {
 
 	width, height := 30, 30
 
-	assertions := test_assertions.FlattenAssertionGroups(
-		test_assertions.GetDefaultAssertions(),
-		test_assertions.GetContentSizeAssertions(
+	assertions := component_test.FlattenAssertionGroups(
+		component_test.GetDefaultAssertions(),
+		component_test.GetContentSizeAssertions(
 			7,
 			17,
 			5,
@@ -43,7 +43,7 @@ func TestColumnLayout(t *testing.T) {
 	flexbox.SetWidthAndGetDesiredHeight(width)
 	flexbox.View(width, height)
 
-	test_assertions.CheckAll(t, assertions, flexbox)
+	component_test.CheckAll(t, assertions, flexbox)
 }
 
 /*

@@ -1,6 +1,19 @@
 Teact
 =====
-Teact is a React-like framework built on top of Charm's Bubbletea system.
+Teact is a React-like framework built on top of Charm's [Bubbletea system](https://github.com/charmbracelet/bubbletea). Components built with Teact are reactive by default.
+
+How to use it
+-------------
+You write components out of other components. Teact provides several 
+
+
+- Parents should resize based on the sizes of their children
+- 
+
+
+
+
+It has several intents
 
 TODO:
 - Fix word wrapping

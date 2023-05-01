@@ -1,4 +1,4 @@
-package test_assertions
+package component_test
 
 import (
 	"github.com/mieubrisse/teact/teact/components"

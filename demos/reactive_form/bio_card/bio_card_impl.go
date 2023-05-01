@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	unknownName = "Anonymous"
+	unknownName = "Anonymous Agent"
 )
 
 var normalTextStyle = style.NewStyle(
