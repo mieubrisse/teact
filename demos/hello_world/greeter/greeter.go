@@ -1,4 +1,4 @@
-package app
+package greeter
 
 import (
 	"github.com/charmbracelet/lipgloss"
@@ -11,23 +11,23 @@ import (
 )
 
 // A custom component
-type HelloWorldApp interface {
+type Greeter interface {
 	components.Component
 }
 
 // Implementation of the custom component
-type helloWorldAppImpl struct {
+type greeterImpl struct {
 	// So long as we assign a component to this then our component will call down to it (via Go struct embedding)
 	components.Component
 }
 
-func New() HelloWorldApp {
+func New() Greeter {
 	// This is a tree, just like HTML, with leaf nodes indented the most
 	root := flexbox.NewWithOpts(
 		[]flexbox_item.FlexboxItem{
 			flexbox_item.New(
 				stylebox.New(
-					text.New("Hello, world!"),
+					text.New(text.WithContents("Hello, world!")),
 					stylebox.WithStyle(
 						style.WithForeground(lipgloss.Color("#B6DCFE")),
 					),
@@ -38,7 +38,7 @@ func New() HelloWorldApp {
 		flexbox.WithHorizontalAlignment(flexbox.AlignCenter),
 	)
 
-	return &helloWorldAppImpl{
+	return &greeterImpl{
 		Component: root,
 	}
 }
