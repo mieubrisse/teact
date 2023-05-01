@@ -10,9 +10,9 @@ type Direction interface {
 
 	reduceChildHeights(childHeights []int) int
 
-	getActualWidths(minContentWidths []int, maxContentWidths []int, shouldGrow []bool, widthAvailable int) axisSizeCalculationResults
+	getActualWidths(minContentWidths []int, maxContentWidths []int, growthFactors []int, widthAvailable int) axisSizeCalculationResults
 
-	getActualHeights(minContentHeights []int, maxContentHeights []int, shouldGrow []bool, heightAvailable int) axisSizeCalculationResults
+	getActualHeights(minContentHeights []int, maxContentHeights []int, growthFactors []int, heightAvailable int) axisSizeCalculationResults
 
 	renderContentFragments(contentFragments []string, width int, height int, horizontalAlignment AxisAlignment, verticalAlignment AxisAlignment) string
 }
@@ -68,20 +68,20 @@ func (a directionImpl) reduceChildHeights(childHeights []int) int {
 	return a.heightDimensionReducer(childHeights)
 }
 
-func (r directionImpl) getActualWidths(minContentWidths []int, maxContentWidths []int, shouldGrow []bool, widthAvailable int) axisSizeCalculationResults {
+func (r directionImpl) getActualWidths(minContentWidths []int, maxContentWidths []int, growthFactors []int, widthAvailable int) axisSizeCalculationResults {
 	return r.actualWidthCalculator(
 		minContentWidths,
 		maxContentWidths,
-		shouldGrow,
+		growthFactors,
 		widthAvailable,
 	)
 }
 
-func (r directionImpl) getActualHeights(minContentHeights []int, maxContentHeights []int, shouldGrow []bool, heightAvailable int) axisSizeCalculationResults {
+func (r directionImpl) getActualHeights(minContentHeights []int, maxContentHeights []int, growthFactors []int, heightAvailable int) axisSizeCalculationResults {
 	return r.actualHeightCalculator(
 		minContentHeights,
 		maxContentHeights,
-		shouldGrow,
+		growthFactors,
 		heightAvailable,
 	)
 }

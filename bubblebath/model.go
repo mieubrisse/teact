@@ -48,9 +48,11 @@ func NewBubbleBathModel(app components.Component, options ...BubbleBathOption) t
 		flexbox_item.New(app).
 			// TODO allow these to be configured?
 			SetMinWidth(flexbox_item.MinContent).
-			SetMaxWidth(flexbox_item.MaxAvailable).
+			SetMaxWidth(flexbox_item.MaxContent).
+			SetHorizontalGrowthFactor(1).
 			SetMinHeight(flexbox_item.MinContent).
-			SetMaxHeight(flexbox_item.MaxAvailable),
+			SetMaxHeight(flexbox_item.MaxContent).
+			SetVerticalGrowthFactor(1),
 	})
 	result := &bubbleBathModel{
 		initCmd:         nil,

@@ -43,10 +43,10 @@ func New() ContentItem {
 
 	root := flexbox.NewWithContents(
 		flexbox_item.New(stylebox.New(nameText).SetStyle(nameStyle)).
-			SetMinWidth(flexbox_item.FixedSize(40)).
-			SetMaxWidth(flexbox_item.MaxAvailable),
+			SetMinWidth(flexbox_item.FixedSize(20)).
+			SetMaxWidth(flexbox_item.FixedSize(40)),
 		flexbox_item.New(text.New(" ")).SetMinWidth(flexbox_item.FixedSize(1)),
-		flexbox_item.New(stylebox.New(descriptionText).SetStyle(tagsStyle)),
+		flexbox_item.New(stylebox.New(descriptionText).SetStyle(tagsStyle)).SetHorizontalGrowthFactor(1),
 	)
 
 	return &impl{

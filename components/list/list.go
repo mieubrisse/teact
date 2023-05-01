@@ -37,7 +37,7 @@ func (i *impl[T]) SetItems(items []T) List[T] {
 
 	flexboxItems := make([]flexbox_item.FlexboxItem, len(items))
 	for idx, item := range items {
-		flexboxItems[idx] = flexbox_item.New(item).SetMaxWidth(flexbox_item.MaxAvailable)
+		flexboxItems[idx] = flexbox_item.New(item).SetHorizontalGrowthFactor(1)
 	}
 	i.root.SetChildren(flexboxItems)
 

@@ -144,14 +144,14 @@ func (b *flexboxImpl) GetContentHeightForGivenWidth(width int) int {
 	}
 
 	// Width
-	shouldGrowWidths := make([]bool, len(b.children))
+	growthFactors := make([]int, len(b.children))
 	for idx, item := range b.children {
-		shouldGrowWidths[idx] = item.GetMaxWidth().ShouldGrow()
+		growthFactors[idx] = item.GetHorizontalGrowthFactor()
 	}
 	actualWidthsCalcResults := b.direction.getActualWidths(
 		b.childDimensionsCache.minWidths,
 		b.childDimensionsCache.maxWidths,
-		shouldGrowWidths,
+		growthFactors,
 		width,
 	)
 
@@ -180,14 +180,15 @@ func (b *flexboxImpl) View(width int, height int) string {
 	actualWidths := b.actualChildWidthsCache.actualSizes
 	// widthNotUsedByChildren := utilities.GetMaxInt(0, width-b.actualChildWidthsCache.spaceUsedByChildren)
 
-	shouldGrowHeights := make([]bool, len(b.children))
+	// TODO get rid of this.. doesn't quite make sense
+	growthFactors := make([]int, len(b.children))
 	for idx, item := range b.children {
-		shouldGrowHeights[idx] = item.GetMaxHeight().ShouldGrow()
+		growthFactors[idx] = item.GetVerticalGrowthFactor()
 	}
 	actualHeightsCalcResult := b.direction.getActualHeights(
 		b.childDimensionsCache.minHeights,
 		b.desiredChildHeightsGivenWidthCache,
-		shouldGrowHeights,
+		growthFactors,
 		height,
 	)
 

@@ -51,6 +51,13 @@ type FlexboxItem interface {
 
 	GetOverflowStyle() OverflowStyle
 	SetOverflowStyle(style OverflowStyle) FlexboxItem
+
+	// Analogous to "flex-grow" when on the main axis, and "align-items: stretch" when on the cross axis (on a per-item basis)
+	// 0 means no growth
+	GetHorizontalGrowthFactor() int
+	SetHorizontalGrowthFactor(growthFactor int) FlexboxItem
+	GetVerticalGrowthFactor() int
+	SetVerticalGrowthFactor(growthFactor int) FlexboxItem
 }
 
 type flexboxItemImpl struct {
@@ -67,18 +74,23 @@ type flexboxItemImpl struct {
 
 	overflowStyle OverflowStyle
 
-	// TODO weight (analogous to flex-grow)
-	// When the child size constraint is set to MaxAvailable, then this will be used
+	// Analogous to "flex-grow" when on the main axis, and "align-items: stretch" when on the cross axis (on a per-item basis)
+	horizontalGrowthFactor int
+
+	// Analogous to "flex-grow" when on the main axis, and "align-items: stretch" when on the cross axis (on a per-item basis)
+	verticalGrowthFactor int
 }
 
 func New(component components.Component) FlexboxItem {
 	return &flexboxItemImpl{
-		component:     component,
-		minWidth:      MinContent,
-		maxWidth:      MaxContent,
-		minHeight:     MinContent,
-		maxHeight:     MaxContent,
-		overflowStyle: Wrap,
+		component:              component,
+		minWidth:               MinContent,
+		maxWidth:               MaxContent,
+		minHeight:              MinContent,
+		maxHeight:              MaxContent,
+		overflowStyle:          Wrap,
+		horizontalGrowthFactor: 0,
+		verticalGrowthFactor:   0,
 	}
 }
 
@@ -184,6 +196,24 @@ func (item *flexboxItemImpl) GetOverflowStyle() OverflowStyle {
 
 func (item *flexboxItemImpl) SetOverflowStyle(style OverflowStyle) FlexboxItem {
 	item.overflowStyle = style
+	return item
+}
+
+func (item *flexboxItemImpl) GetHorizontalGrowthFactor() int {
+	return item.horizontalGrowthFactor
+}
+
+func (item *flexboxItemImpl) SetHorizontalGrowthFactor(growFactor int) FlexboxItem {
+	item.horizontalGrowthFactor = growFactor
+	return item
+}
+
+func (item *flexboxItemImpl) GetVerticalGrowthFactor() int {
+	return item.verticalGrowthFactor
+}
+
+func (item *flexboxItemImpl) SetVerticalGrowthFactor(growthFactor int) FlexboxItem {
+	item.verticalGrowthFactor = growthFactor
 	return item
 }
 

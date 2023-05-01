@@ -7,7 +7,7 @@ import (
 type axisSizeCalculator func(
 	minContentSizes []int,
 	maxContentSizes []int,
-	shouldGrow []bool,
+	growthFactors []int,
 	spaceAvailable int,
 ) axisSizeCalculationResults
 
@@ -21,7 +21,7 @@ type axisSizeCalculationResults struct {
 func calculateActualCrossAxisSizes(
 	minContentSizes []int,
 	maxContentSizes []int,
-	shouldGrow []bool,
+	growthFactors []int,
 	// How much space is available in the cross axis
 	spaceAvailable int,
 ) axisSizeCalculationResults {
@@ -30,7 +30,8 @@ func calculateActualCrossAxisSizes(
 	// The space used in the cross axis is the max across all children
 	maxSpaceUsed := 0
 	for idx, max := range maxContentSizes {
-		if shouldGrow[idx] {
+		// TODO replace this with "align-content"
+		if growthFactors[idx] > 0 {
 			max = spaceAvailable
 		}
 
@@ -48,7 +49,7 @@ func calculateActualCrossAxisSizes(
 func calculateActualMainAxisSizes(
 	minContentSizes []int,
 	maxContentSizes []int,
-	shouldGrow []bool,
+	growthFactors []int,
 	spaceAvailable int,
 ) axisSizeCalculationResults {
 	actualSizes := make([]int, len(minContentSizes))
@@ -104,15 +105,7 @@ func calculateActualMainAxisSizes(
 
 	// At this point, we *still* have space left over so give it to the children who can grow
 	spaceForFillingBox := spaceAvailable - maxDesiredSize
-	weightsForFillingBox := make([]int, len(maxContentSizes))
-	for idx, itemShouldGrow := range shouldGrow {
-		if itemShouldGrow {
-			// TODO actual weights
-			weightsForFillingBox[idx] = 1
-		}
-	}
-
-	actualSizes = utilities.DistributeSpaceByWeight(spaceForFillingBox, actualSizes, weightsForFillingBox)
+	actualSizes = utilities.DistributeSpaceByWeight(spaceForFillingBox, actualSizes, growthFactors)
 
 	totalSizeUsedByChildren := 0
 	for _, size := range actualSizes {
