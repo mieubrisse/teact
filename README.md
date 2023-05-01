@@ -11,7 +11,9 @@ TODO explain the utility wrappers around `lipgloss.NewStyle()`
 
 TODO note about `RunTeact`
 
-TODO `PassEventToComponentIfPossible`
+TODO `TryUpdate`
+
+TODO note about how putting a border around a thing is a good way to see what it's doing
 
 Best Practices
 --------------
@@ -75,3 +77,4 @@ TODO
 - Make every component styleable, so we don't need styleboxes everywhere???
 - Add some sort of inline/span thing
 - Create a single "position" enum (so that we don't have different ones between flexbox and text, etc.)
+- Make flexbox alignments purely "MainAxis" and "CrossAxis", so that when flipping the box things will be nicer

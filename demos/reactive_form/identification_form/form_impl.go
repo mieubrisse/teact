@@ -32,7 +32,6 @@ func New(opts ...IdentificationFormOpts) IdentificationForm {
 						text.New("Identification", text.WithAlign(text.AlignCenter)),
 						stylebox.WithNewStyle(
 							style.WithBold(true),
-							style.WithBorder(lipgloss.NormalBorder()),
 							style.WithForeground(colors.Platinum),
 						),
 					),
@@ -60,7 +59,6 @@ func New(opts ...IdentificationFormOpts) IdentificationForm {
 		),
 		stylebox.WithNewStyle(
 			style.WithBorder(lipgloss.NormalBorder()),
-			style.WithForeground(colors.Isabelline),
 		),
 	)
 

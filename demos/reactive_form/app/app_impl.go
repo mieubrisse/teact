@@ -14,6 +14,10 @@ type reactiveFormAppImpl struct {
 
 	form    identification_form.IdentificationForm
 	bioCard bio_card.BioCard
+
+	box            flexbox.Flexbox
+	formBoxItem    flexbox_item.FlexboxItem
+	bioCardBoxItem flexbox_item.FlexboxItem
 }
 
 func New() ReactiveFormApp {
@@ -21,30 +25,41 @@ func New() ReactiveFormApp {
 		identification_form.WithFocus(true),
 		identification_form.WithName("007"),
 	)
-	bioCard := bio_card.New()
-	app := flexbox.NewWithOpts(
-		[]flexbox_item.FlexboxItem{
-			flexbox_item.New(
-				form,
-				flexbox_item.WithHorizontalGrowthFactor(1),
-				flexbox_item.WithVerticalGrowthFactor(1),
-			),
-			flexbox_item.New(
-				bioCard,
-				flexbox_item.WithHorizontalGrowthFactor(1),
-				flexbox_item.WithVerticalGrowthFactor(1),
-			),
-		},
-		flexbox.WithDirection(flexbox.Column),
+	formBoxItem := flexbox_item.New(
+		form,
+		flexbox_item.WithHorizontalGrowthFactor(2),
+		flexbox_item.WithVerticalGrowthFactor(1),
 	)
 
+	bioCard := bio_card.New()
+	bioCardBoxItem := flexbox_item.New(
+		bioCard,
+		flexbox_item.WithHorizontalGrowthFactor(5),
+		flexbox_item.WithVerticalGrowthFactor(1),
+	)
+	box := flexbox.New(formBoxItem, bioCardBoxItem)
+
 	result := &reactiveFormAppImpl{
-		Component: app,
-		form:      form,
-		bioCard:   bioCard,
+		Component:      box,
+		form:           form,
+		bioCard:        bioCard,
+		box:            box,
+		formBoxItem:    formBoxItem,
+		bioCardBoxItem: bioCardBoxItem,
 	}
 	result.updateBioCard()
 	return result
+}
+
+func (r *reactiveFormAppImpl) SetWidthAndGetDesiredHeight(actualWidth int) int {
+	if actualWidth < 80 {
+		r.box.SetDirection(flexbox.Column)
+		r.formBoxItem.SetVerticalGrowthFactor(0)
+	} else {
+		r.box.SetDirection(flexbox.Row)
+		r.formBoxItem.SetVerticalGrowthFactor(1)
+	}
+	return r.Component.SetWidthAndGetDesiredHeight(actualWidth)
 }
 
 func (r reactiveFormAppImpl) Update(msg tea.Msg) tea.Cmd {
