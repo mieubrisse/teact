@@ -7,7 +7,7 @@ import (
 
 // Simple way to run a Teact program
 // If you need more complex configuration, use RunTeactFromModel
-func RunTeact[T components.Component](
+func Run[T components.Component](
 	yourApp T,
 	bubbleTeaOpts ...tea.ProgramOption,
 ) (T, error) {

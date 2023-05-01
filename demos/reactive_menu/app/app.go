@@ -3,8 +3,8 @@ package app
 import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mieubrisse/teact/teact/components"
-	flexbox2 "github.com/mieubrisse/teact/teact/components/flexbox"
-	flexbox_item2 "github.com/mieubrisse/teact/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/teact/components/flexbox"
+	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 	"github.com/mieubrisse/teact/teact/components/list"
 	"github.com/mieubrisse/teact/teact/components/stylebox"
 	"github.com/mieubrisse/teact/teact/components/text"
@@ -21,7 +21,7 @@ type impl struct {
 	// Root component
 	components.Component
 
-	box flexbox2.Flexbox
+	box flexbox.Flexbox
 }
 
 func New() ReactiveMenuApp {
@@ -31,7 +31,7 @@ func New() ReactiveMenuApp {
 			text.New("Search", text.WithAlign(text.AlignCenter)),
 			text.New("Docs", text.WithAlign(text.AlignCenter)),
 			text.New("About", text.WithAlign(text.AlignCenter)),
-		).SetHorizontalAlignment(flexbox2.AlignCenter),
+		).SetHorizontalAlignment(flexbox.AlignCenter),
 		stylebox.WithExistingStyle(style.NewStyle(
 			style.WithBorder(lipgloss.NormalBorder()),
 			style.WithPadding(0, 1),
@@ -50,17 +50,17 @@ func New() ReactiveMenuApp {
 		)),
 	)
 
-	box := flexbox2.NewWithContents(
-		flexbox_item2.New(
+	box := flexbox.New(
+		flexbox_item.New(
 			menu,
-			flexbox_item2.WithMaxWidth(flexbox_item2.FixedSize(20)),
-			flexbox_item2.WithHorizontalGrowthFactor(2),
-			flexbox_item2.WithVerticalGrowthFactor(1),
+			flexbox_item.WithMaxWidth(flexbox_item.FixedSize(20)),
+			flexbox_item.WithHorizontalGrowthFactor(2),
+			flexbox_item.WithVerticalGrowthFactor(1),
 		),
-		flexbox_item2.New(
+		flexbox_item.New(
 			content,
-			flexbox_item2.WithHorizontalGrowthFactor(5),
-			flexbox_item2.WithVerticalGrowthFactor(1),
+			flexbox_item.WithHorizontalGrowthFactor(5),
+			flexbox_item.WithVerticalGrowthFactor(1),
 		),
 	)
 
@@ -72,9 +72,9 @@ func New() ReactiveMenuApp {
 
 func (impl *impl) SetWidthAndGetDesiredHeight(actualWidth int) int {
 	if actualWidth >= 60 {
-		impl.box.SetDirection(flexbox2.Row)
+		impl.box.SetDirection(flexbox.Row)
 	} else {
-		impl.box.SetDirection(flexbox2.Column)
+		impl.box.SetDirection(flexbox.Column)
 	}
 	return impl.Component.SetWidthAndGetDesiredHeight(actualWidth)
 }

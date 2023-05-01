@@ -1,10 +1,34 @@
 Teact
 =====
-Teact is a React-like framework built on top of Charm's [Bubbletea system](https://github.com/charmbracelet/bubbletea). Components built with Teact are reactive by default.
+Teact is a React-like framework built on top of Charm's [Bubbletea system](https://github.com/charmbracelet/bubbletea) that will make your TUIs easier to build, and responsive to terminal size. It's sort of like the browser renderer + HTML + CSS + Javascript, all in one.
 
 How to use it
 -------------
-You write components out of other components. Teact provides several 
+Every Teact app starts with a call to `teact.Run` in its `main.go`, to the component that will be the root of your application. For example:
+
+```go
+func main() {
+	myApp := app.New()
+	if _, err := teact.Run(myApp, tea.WithAltScreen()); err != nil {
+		fmt.Printf("An error occurred running the program:\n%v", err)
+		os.Exit(1)
+	}
+}
+```
+
+(you can follow along with this demo [here]
+
+A Teact component is just an implementation of the `Component` interface, which provides size information to Teact's layout/rendering system. 
+
+`Component`s are the building blocks of your application.
+
+
+
+
+
+Teact provides several built-in components (e.g. flexbox, list). You'll write components that compose these components (which can be composed even further).
+
+You'll write custom components that compose. Teact provides several 
 
 
 - Parents should resize based on the sizes of their children
@@ -27,6 +51,9 @@ TODO note about `RunTeact`
 TODO `TryUpdate`
 
 TODO note about how putting a border around a thing is a good way to see what it's doing
+
+Why not vanilla Bubbletea?
+--------------------------
 
 Best Practices
 --------------

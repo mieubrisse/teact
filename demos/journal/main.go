@@ -12,13 +12,7 @@ func main() {
 	myApp := app.New()
 	myApp.SetFocus(true)
 
-	if _, err := teact.RunTeact(
-		myApp,
-		nil,
-		[]tea.ProgramOption{
-			tea.WithAltScreen(),
-		},
-	); err != nil {
+	if _, err := teact.Run(myApp, tea.WithAltScreen()); err != nil {
 		fmt.Printf("An error occurred running the program:\n%v", err)
 		os.Exit(1)
 	}
