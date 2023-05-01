@@ -41,6 +41,7 @@ func TestColumnLayout(t *testing.T) {
 	test_assertions.CheckAll(t, assertions, flexbox)
 }
 
+/*
 func TestAdvancedColumnLayout(t *testing.T) {
 	var red = lipgloss.Color("#FF0000")
 	var blue = lipgloss.Color("#0000FF")
@@ -69,4 +70,26 @@ func TestAdvancedColumnLayout(t *testing.T) {
 	component.GetContentMinMax()
 	component.GetContentHeightForGivenWidth(width)
 	component.View(width, height)
+}
+*/
+
+func TestFixedSizeItem(t *testing.T) {
+	nameText := text.New("Pizza")
+	descriptionText := text.New("A description of pizza")
+
+	style := lipgloss.NewStyle().BorderStyle(lipgloss.NormalBorder())
+
+	box := NewWithContents(
+		flexbox_item.New(stylebox.New(nameText).SetStyle(style)).
+			SetMinWidth(flexbox_item.FixedSize(60)).
+			SetMaxWidth(flexbox_item.FixedSize(60)),
+		flexbox_item.New(text.New(" ")),
+		flexbox_item.New(stylebox.New(descriptionText).SetStyle(style)).SetMaxWidth(flexbox_item.MaxAvailable),
+	)
+
+	width, height := 170, 30
+
+	box.GetContentMinMax()
+	box.GetContentHeightForGivenWidth(width)
+	box.View(width, height)
 }

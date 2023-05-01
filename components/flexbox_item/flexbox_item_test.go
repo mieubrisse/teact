@@ -62,3 +62,18 @@ func TestStyleboxInside(t *testing.T) {
 	test_assertions.CheckAll(t, assertions, component)
 
 }
+
+func TestFixedSize(t *testing.T) {
+	fixedWidth := 60
+
+	contained := text.New("A description of pizza")
+	item := New(contained).
+		SetMinWidth(FixedSize(fixedWidth)).
+		SetMaxWidth(FixedSize(fixedWidth))
+
+	assertions := test_assertions.FlattenAssertionGroups(
+		test_assertions.GetContentSizeAssertions(fixedWidth, fixedWidth, 1, 1),
+	)
+
+	test_assertions.CheckAll(t, assertions, item)
+}

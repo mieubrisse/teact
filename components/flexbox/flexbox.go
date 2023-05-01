@@ -129,7 +129,7 @@ func (b *flexboxImpl) GetContentHeightForGivenWidth(width int) int {
 	desiredChildWidths := make([]int, len(b.children)) // NOTE: we actually already calculated this above, with GetContentMinMax. Maybe cache?
 	shouldGrowWidths := make([]bool, len(b.children))
 	for idx, item := range b.children {
-		_, desiredChildWidths[idx], _, _ = item.GetComponent().GetContentMinMax()
+		_, desiredChildWidths[idx], _, _ = item.GetContentMinMax()
 		shouldGrowWidths[idx] = item.GetMaxWidth().ShouldGrow()
 	}
 	actualWidthsCalcResults := b.direction.getActualWidths(desiredChildWidths, shouldGrowWidths, width)

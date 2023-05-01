@@ -1,12 +1,11 @@
 package app
 
 import (
-	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/app_components/favorite_thing"
-	"github.com/mieubrisse/teact/app_components/favorite_things_list"
+	"github.com/mieubrisse/teact/app_components/content_item"
 	"github.com/mieubrisse/teact/components"
+	"github.com/mieubrisse/teact/components/list"
 	"github.com/mieubrisse/teact/components/stylebox"
 )
 
@@ -15,7 +14,7 @@ type App interface {
 }
 
 type appImpl struct {
-	favoriteThingsList favorite_things_list.FavoriteThingsList
+	itemsList list.List[content_item.ContentItem]
 
 	root components.Component
 
@@ -23,19 +22,19 @@ type appImpl struct {
 }
 
 func New() App {
-	myFavoriteThings := []favorite_thing.FavoriteThing{
-		favorite_thing.New().SetName("Pourover coffee").SetDescription("It takes so long to make though"),
-		favorite_thing.New().SetName("Pizza").SetDescription("Pepperoni is the best"),
-		favorite_thing.New().SetName("Jiu jitsu").SetDescription("Rolling all day"),
+	items := []content_item.ContentItem{
+		content_item.New().SetName("Pourover coffee").SetDescription("It takes so long to make though"),
+		content_item.New().SetName("Pizza").SetDescription("Pepperoni is the best"),
+		content_item.New().SetName("Jiu jitsu").SetDescription("Rolling all day"),
 	}
 
-	favoriteThingsList := favorite_things_list.New().SetThings(myFavoriteThings)
+	itemsList := list.New[content_item.ContentItem]().SetItems(items)
 
-	root := stylebox.New(favoriteThingsList).SetStyle(lipgloss.NewStyle().BorderStyle(lipgloss.NormalBorder()))
+	root := stylebox.New(itemsList).SetStyle(lipgloss.NewStyle().Padding(1))
 	return &appImpl{
-		favoriteThingsList: favoriteThingsList,
-		root:               root,
-		isFocused:          false,
+		itemsList: itemsList,
+		root:      root,
+		isFocused: false,
 	}
 }
 
@@ -56,21 +55,24 @@ func (a *appImpl) Update(msg tea.Msg) tea.Cmd {
 		return nil
 	}
 
-	switch msg := msg.(type) {
-	case tea.KeyMsg:
-		if msg.String() == "enter" {
-			things := a.favoriteThingsList.GetThings()
-			thingNumber := len(things)
-			newThing := favorite_thing.New().
-				SetName(fmt.Sprintf("Thing #%v", thingNumber)).
-				SetDescription(fmt.Sprintf("This is thing %v", thingNumber))
-			things = append(things, newThing)
-			a.favoriteThingsList.SetThings(things)
-		} else if msg.String() == "backspace" {
-			things := a.favoriteThingsList.GetThings()
-			a.favoriteThingsList.SetThings(things[:len(things)-1])
+	/*
+		switch msg := msg.(type) {
+		case tea.KeyMsg:
+			if msg.String() == "enter" {
+				things := a.contentList.GetItems()
+				thingNumber := len(things)
+				newThing := content_item.New().
+					SetName(fmt.Sprintf("Thing #%v", thingNumber)).
+					SetDescription(fmt.Sprintf("This is thing %v", thingNumber))
+				things = append(things, newThing)
+				a.contentList.SetItems(things)
+			} else if msg.String() == "backspace" {
+				things := a.contentList.GetItems()
+				a.contentList.SetItems(things[:len(things)-1])
+			}
 		}
-	}
+
+	*/
 	return nil
 }
 

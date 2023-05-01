@@ -96,6 +96,7 @@ func (item *flexboxItemImpl) GetContentMinMax() (minWidth int, maxWidth int, min
 }
 
 func (item *flexboxItemImpl) GetContentHeightForGivenWidth(width int) int {
+	// TODO we're redoing this calculation when we've already done it - if we cache it, we'll save extra work
 	return item.component.GetContentHeightForGivenWidth(width)
 }
 
@@ -205,6 +206,11 @@ func calculateFlexboxItemContentSizesFromInnerContentSizes(
 	if itemMaxWidth < itemMinWidth {
 		itemMaxWidth = itemMinWidth
 	}
+
+	// TODO there's a very minor bug here where if we use a fixed-size width, the height min-content should go down
+	//  but it doesn't because we don't recalculate the actual height based on the actual width
+	//  The way to fix this is to figure out how extrinsic width/height settings (e.g. 60px, 20%, etc.) can be factored
+	//  into our calculations
 
 	itemMinHeight = item.GetMinHeight().getSizeRetriever()(innerMinHeight, innerMaxHeight)
 	itemMaxHeight = item.GetMaxHeight().getSizeRetriever()(innerMinHeight, innerMaxHeight)

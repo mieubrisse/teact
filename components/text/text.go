@@ -69,10 +69,8 @@ func (t *textImpl) GetContentMinMax() (minWidth int, maxWidth int, minHeight int
 
 	maxWidth = lipgloss.Width(t.text)
 
-	minHeight = lipgloss.Height(t.text)
-
-	minWidthWrapped := wordwrap.String(t.text, minWidth)
-	maxHeight = lipgloss.Height(minWidthWrapped)
+	maxHeight = t.GetContentHeightForGivenWidth(minWidth)
+	minHeight = t.GetContentHeightForGivenWidth(maxWidth)
 
 	return
 }

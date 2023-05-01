@@ -1,4 +1,4 @@
-package favorite_thing
+package content_item
 
 import (
 	"github.com/charmbracelet/lipgloss"
@@ -10,24 +10,24 @@ import (
 )
 
 var nameStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.Color("#FF0000")).
-	Bold(true)
+	Foreground(lipgloss.Color("#FF4444")).
+	Border(lipgloss.NormalBorder())
 
-var descriptionStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.Color("#0000FF")).
-	Bold(true)
+var tagsStyle = lipgloss.NewStyle().
+	Foreground(lipgloss.Color("#4444FF")).
+	Border(lipgloss.NormalBorder())
 
-type FavoriteThing interface {
+type ContentItem interface {
 	components.Component
 
 	GetName() string
-	SetName(name string) FavoriteThing
+	SetName(name string) ContentItem
 
 	GetDescription() string
-	SetDescription(desc string) FavoriteThing
+	SetDescription(desc string) ContentItem
 }
 
-type favoriteThingImpl struct {
+type impl struct {
 	name        string
 	description string
 
@@ -37,16 +37,19 @@ type favoriteThingImpl struct {
 	root components.Component
 }
 
-func New() FavoriteThing {
+func New() ContentItem {
 	nameText := text.New("")
 	descriptionText := text.New("")
 
 	root := flexbox.NewWithContents(
-		flexbox_item.New(stylebox.New(nameText).SetStyle(nameStyle)),
-		flexbox_item.New(stylebox.New(descriptionText).SetStyle(descriptionStyle)),
-	).SetHorizontalAlignment(flexbox.AlignCenter)
+		flexbox_item.New(stylebox.New(nameText).SetStyle(nameStyle)).
+			SetMinWidth(flexbox_item.FixedSize(40)).
+			SetMaxWidth(flexbox_item.FixedSize(40)),
+		flexbox_item.New(text.New(" ")),
+		flexbox_item.New(stylebox.New(descriptionText).SetStyle(tagsStyle)).SetMaxWidth(flexbox_item.MaxAvailable),
+	)
 
-	return &favoriteThingImpl{
+	return &impl{
 		name:            "",
 		description:     "",
 		nameText:        nameText,
@@ -55,34 +58,34 @@ func New() FavoriteThing {
 	}
 }
 
-func (f *favoriteThingImpl) GetName() string {
+func (f *impl) GetName() string {
 	return f.name
 }
 
-func (f *favoriteThingImpl) SetName(name string) FavoriteThing {
+func (f *impl) SetName(name string) ContentItem {
 	f.name = name
 	f.nameText.SetContents(name)
 	return f
 }
 
-func (f *favoriteThingImpl) GetDescription() string {
+func (f *impl) GetDescription() string {
 	return f.description
 }
 
-func (f *favoriteThingImpl) SetDescription(desc string) FavoriteThing {
+func (f *impl) SetDescription(desc string) ContentItem {
 	f.description = desc
 	f.descriptionText.SetContents(desc)
 	return f
 }
 
-func (f favoriteThingImpl) GetContentMinMax() (minWidth, maxWidth, minHeight, maxHeight int) {
+func (f impl) GetContentMinMax() (minWidth, maxWidth, minHeight, maxHeight int) {
 	return f.root.GetContentMinMax()
 }
 
-func (f favoriteThingImpl) GetContentHeightForGivenWidth(width int) int {
+func (f impl) GetContentHeightForGivenWidth(width int) int {
 	return f.root.GetContentHeightForGivenWidth(width)
 }
 
-func (f favoriteThingImpl) View(width int, height int) string {
+func (f impl) View(width int, height int) string {
 	return f.root.View(width, height)
 }
