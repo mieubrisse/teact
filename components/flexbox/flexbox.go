@@ -6,7 +6,7 @@ import (
 )
 
 // NOTE: This class does some stateful caching, so when you're testing methods like "View" make sure you call the
-// full flow of GetContentMinMax -> GetContentHeightForGivenWidth -> View as necessary
+// full flow of GetContentMinMax -> SetWidthAndGetDesiredHeight -> View as necessary
 
 type Flexbox interface {
 	components.Component
@@ -138,7 +138,7 @@ func (b *flexboxImpl) GetContentMinMax() (int, int, int, int) {
 	return minWidth, maxWidth, minHeight, maxHeight
 }
 
-func (b *flexboxImpl) GetContentHeightForGivenWidth(width int) int {
+func (b *flexboxImpl) SetWidthAndGetDesiredHeight(width int) int {
 	if width == 0 {
 		return 0
 	}
@@ -161,7 +161,7 @@ func (b *flexboxImpl) GetContentHeightForGivenWidth(width int) int {
 	desiredHeights := make([]int, len(b.children))
 	for idx, item := range b.children {
 		actualWidth := actualWidthsCalcResults.actualSizes[idx]
-		desiredHeight := item.GetContentHeightForGivenWidth(actualWidth)
+		desiredHeight := item.SetWidthAndGetDesiredHeight(actualWidth)
 
 		desiredHeights[idx] = desiredHeight
 	}

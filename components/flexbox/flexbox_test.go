@@ -35,7 +35,7 @@ func TestColumnLayout(t *testing.T) {
 
 	// Need to populate the caches
 	flexbox.GetContentMinMax()
-	flexbox.GetContentHeightForGivenWidth(width)
+	flexbox.SetWidthAndGetDesiredHeight(width)
 	flexbox.View(width, height)
 
 	test_assertions.CheckAll(t, assertions, flexbox)
@@ -68,7 +68,7 @@ func TestAdvancedColumnLayout(t *testing.T) {
 
 	width, height := 30, 30
 	component.GetContentMinMax()
-	component.GetContentHeightForGivenWidth(width)
+	component.SetWidthAndGetDesiredHeight(width)
 	component.View(width, height)
 }
 */
@@ -90,6 +90,6 @@ func TestFixedSizeItem(t *testing.T) {
 	width, height := 170, 30
 
 	box.GetContentMinMax()
-	box.GetContentHeightForGivenWidth(width)
+	box.SetWidthAndGetDesiredHeight(width)
 	box.View(width, height)
 }

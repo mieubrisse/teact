@@ -13,7 +13,7 @@ type HeightAtWidthAssertion struct {
 }
 
 func (assertion HeightAtWidthAssertion) Check(t *testing.T, component components.Component) {
-	height := component.GetContentHeightForGivenWidth(assertion.Width)
+	height := component.SetWidthAndGetDesiredHeight(assertion.Width)
 	require.Equal(
 		t,
 		assertion.ExpectedHeight,

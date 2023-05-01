@@ -8,24 +8,30 @@ import (
 
 // Very simple container around a vertically-oriented flexbox
 type List[T components.Component] interface {
-	components.Component
+	flexbox.Flexbox
 
 	GetItems() []T
 	SetItems(items []T) List[T]
 }
 
 type impl[T components.Component] struct {
-	items []T
+	flexbox.Flexbox
 
-	root flexbox.Flexbox
+	items []T
 }
 
 func New[T components.Component]() List[T] {
 	root := flexbox.New().SetDirection(flexbox.Column)
 	return &impl[T]{
-		items: []T{},
-		root:  root,
+		items:   []T{},
+		Flexbox: root,
 	}
+}
+
+func NewWithContents[T components.Component](contents ...T) List[T] {
+	elem := New[T]()
+	elem.SetItems(contents)
+	return elem
 }
 
 func (i impl[T]) GetItems() []T {
@@ -39,19 +45,19 @@ func (i *impl[T]) SetItems(items []T) List[T] {
 	for idx, item := range items {
 		flexboxItems[idx] = flexbox_item.New(item).SetHorizontalGrowthFactor(1)
 	}
-	i.root.SetChildren(flexboxItems)
+	i.Flexbox.SetChildren(flexboxItems)
 
 	return i
 }
 
 func (i impl[T]) GetContentMinMax() (minWidth, maxWidth, minHeight, maxHeight int) {
-	return i.root.GetContentMinMax()
+	return i.Flexbox.GetContentMinMax()
 }
 
-func (i impl[T]) GetContentHeightForGivenWidth(width int) int {
-	return i.root.GetContentHeightForGivenWidth(width)
+func (i impl[T]) SetWidthAndGetDesiredHeight(width int) int {
+	return i.Flexbox.SetWidthAndGetDesiredHeight(width)
 }
 
 func (i impl[T]) View(width int, height int) string {
-	return i.root.View(width, height)
+	return i.Flexbox.View(width, height)
 }

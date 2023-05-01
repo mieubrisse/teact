@@ -101,7 +101,7 @@ func (b *bubbleBathModel) View() string {
 	// 1) this is the three-phase cycle of our component rendering
 	// 2) some components do caching of the phases, so to kick the cycle off we want to make sure we call them all
 	b.appBox.GetContentMinMax()
-	b.appBox.GetContentHeightForGivenWidth(b.width)
+	b.appBox.SetWidthAndGetDesiredHeight(b.width)
 	return b.appBox.View(b.width, b.height)
 }
 

@@ -33,7 +33,7 @@ func (g gridImpl) GetContentMinMax() (minWidth, maxWidth, minHeight, maxHeight i
 	return width, width, 10, 10
 }
 
-func (g gridImpl) GetContentHeightForGivenWidth(width int) int {
+func (g gridImpl) SetWidthAndGetDesiredHeight(width int) int {
 	return 10
 }
 

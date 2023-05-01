@@ -3,10 +3,10 @@ package app
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/app_components/content_item"
 	"github.com/mieubrisse/teact/components"
 	"github.com/mieubrisse/teact/components/highlightable_list"
 	"github.com/mieubrisse/teact/components/stylebox"
+	"github.com/mieubrisse/teact/demos/journal/content_item"
 	"time"
 )
 

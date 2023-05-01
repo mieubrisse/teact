@@ -22,9 +22,9 @@ func TestBasic(t *testing.T) {
 		test_assertions.GetDefaultAssertions(),
 		test_assertions.GetContentSizeAssertions(innerMinWidth, innerMaxWidth, innerMinHeight, innerMaxHeight),
 		test_assertions.GetHeightAtWidthAssertions(
-			1, inner.GetContentHeightForGivenWidth(1),
-			2, inner.GetContentHeightForGivenWidth(2),
-			10, inner.GetContentHeightForGivenWidth(10),
+			1, inner.SetWidthAndGetDesiredHeight(1),
+			2, inner.SetWidthAndGetDesiredHeight(2),
+			10, inner.SetWidthAndGetDesiredHeight(10),
 		),
 		[]test_assertions.ComponentAssertion{noChangeAssertion},
 	)

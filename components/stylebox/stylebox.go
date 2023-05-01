@@ -6,6 +6,14 @@ import (
 	"github.com/mieubrisse/teact/utilities"
 )
 
+type StyleboxOpt func(stylebox Stylebox)
+
+func WithStyle(style lipgloss.Style) StyleboxOpt {
+	return func(box Stylebox) {
+		box.SetStyle(style)
+	}
+}
+
 // Stylebox is a box explicitly for controlling an element's style
 // No other elements control style; this is intentional so that
 // it's clear where exactly style is getting changed
@@ -24,11 +32,15 @@ type styleboxImpl struct {
 	style lipgloss.Style
 }
 
-func New(component components.Component) Stylebox {
-	return &styleboxImpl{
+func New(component components.Component, opts ...StyleboxOpt) Stylebox {
+	result := &styleboxImpl{
 		component: component,
 		style:     lipgloss.NewStyle(),
 	}
+	for _, opt := range opts {
+		opt(result)
+	}
+	return result
 }
 
 func (s styleboxImpl) GetStyle() lipgloss.Style {
@@ -61,9 +73,9 @@ func (s styleboxImpl) GetContentMinMax() (minWidth, maxWidth, minHeight, maxHeig
 	return
 }
 
-func (s styleboxImpl) GetContentHeightForGivenWidth(width int) int {
+func (s styleboxImpl) SetWidthAndGetDesiredHeight(width int) int {
 	innerWidth := utilities.GetMaxInt(0, width-s.style.GetHorizontalFrameSize())
-	return s.component.GetContentHeightForGivenWidth(innerWidth) + s.style.GetVerticalFrameSize()
+	return s.component.SetWidthAndGetDesiredHeight(innerWidth) + s.style.GetVerticalFrameSize()
 }
 
 func (s styleboxImpl) View(width int, height int) string {

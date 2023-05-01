@@ -8,6 +8,14 @@ import (
 	"strings"
 )
 
+type TextOpt func(Text)
+
+func WithAlign(align TextAlignment) TextOpt {
+	return func(text Text) {
+		text.SetTextAlignment(align)
+	}
+}
+
 type TextAlignment lipgloss.Position
 
 const (
@@ -33,11 +41,15 @@ type textImpl struct {
 	alignment TextAlignment
 }
 
-func New(text string) Text {
-	return &textImpl{
+func New(text string, opts ...TextOpt) Text {
+	result := &textImpl{
 		text:      text,
 		alignment: AlignLeft,
 	}
+	for _, opt := range opts {
+		opt(result)
+	}
+	return result
 }
 
 func (t textImpl) GetContents() string {
@@ -69,13 +81,13 @@ func (t *textImpl) GetContentMinMax() (minWidth int, maxWidth int, minHeight int
 
 	maxWidth = lipgloss.Width(t.text)
 
-	maxHeight = t.GetContentHeightForGivenWidth(minWidth)
-	minHeight = t.GetContentHeightForGivenWidth(maxWidth)
+	maxHeight = t.SetWidthAndGetDesiredHeight(minWidth)
+	minHeight = t.SetWidthAndGetDesiredHeight(maxWidth)
 
 	return
 }
 
-func (t textImpl) GetContentHeightForGivenWidth(width int) int {
+func (t textImpl) SetWidthAndGetDesiredHeight(width int) int {
 	if width == 0 {
 		return 0
 	}

@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/teact/app_components/app"
 	"github.com/mieubrisse/teact/bubblebath"
+	"github.com/mieubrisse/teact/demos/journal/app"
 	"os"
 )
 

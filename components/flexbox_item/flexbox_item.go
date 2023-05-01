@@ -28,9 +28,33 @@ func WithMaxWidth(max FlexboxItemDimensionValue) FlexboxItemOpt {
 	}
 }
 
+func WithMinHeight(min FlexboxItemDimensionValue) FlexboxItemOpt {
+	return func(item FlexboxItem) {
+		item.SetMinHeight(min)
+	}
+}
+
+func WithMaxHeight(max FlexboxItemDimensionValue) FlexboxItemOpt {
+	return func(item FlexboxItem) {
+		item.SetMaxHeight(max)
+	}
+}
+
 func WithOverflowStyle(style OverflowStyle) FlexboxItemOpt {
 	return func(item FlexboxItem) {
 		item.SetOverflowStyle(style)
+	}
+}
+
+func WithHorizontalGrowthFactor(growthFactor int) FlexboxItemOpt {
+	return func(item FlexboxItem) {
+		item.SetHorizontalGrowthFactor(growthFactor)
+	}
+}
+
+func WithVerticalGrowthFactor(growthFactor int) FlexboxItemOpt {
+	return func(item FlexboxItem) {
+		item.SetVerticalGrowthFactor(growthFactor)
 	}
 }
 
@@ -81,9 +105,11 @@ type flexboxItemImpl struct {
 	verticalGrowthFactor int
 }
 
-func New(component components.Component) FlexboxItem {
-	return &flexboxItemImpl{
-		component:              component,
+// TODO add varargs Opts to make it easier to adjust
+func New(component components.Component, opts ...FlexboxItemOpt) FlexboxItem {
+	result := &flexboxItemImpl{
+		component: component,
+		// TODO move a lot of these out into its own class????
 		minWidth:               MinContent,
 		maxWidth:               MaxContent,
 		minHeight:              MinContent,
@@ -92,6 +118,11 @@ func New(component components.Component) FlexboxItem {
 		horizontalGrowthFactor: 0,
 		verticalGrowthFactor:   0,
 	}
+
+	for _, opt := range opts {
+		opt(result)
+	}
+	return result
 }
 
 func (item *flexboxItemImpl) GetContentMinMax() (minWidth int, maxWidth int, minHeight int, maxHeight int) {
@@ -107,9 +138,9 @@ func (item *flexboxItemImpl) GetContentMinMax() (minWidth int, maxWidth int, min
 	return itemMinWidth, itemMaxWidth, itemMinHeight, itemMaxHeight
 }
 
-func (item *flexboxItemImpl) GetContentHeightForGivenWidth(width int) int {
+func (item *flexboxItemImpl) SetWidthAndGetDesiredHeight(width int) int {
 	// TODO we're redoing this calculation when we've already done it - if we cache it, we'll save extra work
-	return item.component.GetContentHeightForGivenWidth(width)
+	return item.component.SetWidthAndGetDesiredHeight(width)
 }
 
 func (item *flexboxItemImpl) View(width int, height int) string {
