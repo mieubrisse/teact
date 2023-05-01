@@ -7,55 +7,63 @@ import (
 	"github.com/mieubrisse/teact/components/flexbox_item"
 	"github.com/mieubrisse/teact/components/stylebox"
 	"github.com/mieubrisse/teact/components/text"
+	"strings"
+	"time"
 )
 
 var nameStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.Color("#FF4444")).
-	Border(lipgloss.NormalBorder())
+	Foreground(lipgloss.Color("#FF4444"))
 
 var tagsStyle = lipgloss.NewStyle().
-	Foreground(lipgloss.Color("#4444FF")).
-	Border(lipgloss.NormalBorder())
+	Foreground(lipgloss.Color("#4444FF"))
 
 type ContentItem interface {
 	components.Component
 
+	GetTimestamp() time.Time
+
 	GetName() string
 	SetName(name string) ContentItem
 
-	GetDescription() string
-	SetDescription(desc string) ContentItem
+	GetTags() []string
+	SetTags(tags []string) ContentItem
 }
 
 type impl struct {
-	name        string
-	description string
+	timestamp time.Time
+	name      string
+	tags      []string
 
-	nameText        text.Text
-	descriptionText text.Text
+	nameText text.Text
+	tagsText text.Text
 
 	root components.Component
 }
 
-func New() ContentItem {
-	nameText := text.New("")
-	descriptionText := text.New("")
+func New(timestamp time.Time, name string, tags []string) ContentItem {
+	nameText := text.New(name)
+	tagsText := text.New(strings.Join(tags, " "))
 
 	root := flexbox.NewWithContents(
 		flexbox_item.New(stylebox.New(nameText).SetStyle(nameStyle)).
 			SetMinWidth(flexbox_item.FixedSize(20)).
-			SetMaxWidth(flexbox_item.FixedSize(40)),
+			SetMaxWidth(flexbox_item.FixedSize(30)),
 		flexbox_item.New(text.New(" ")).SetMinWidth(flexbox_item.FixedSize(1)),
-		flexbox_item.New(stylebox.New(descriptionText).SetStyle(tagsStyle)).SetHorizontalGrowthFactor(1),
+		flexbox_item.New(stylebox.New(tagsText).SetStyle(tagsStyle)).SetHorizontalGrowthFactor(1),
 	)
 
 	return &impl{
-		name:            "",
-		description:     "",
-		nameText:        nameText,
-		descriptionText: descriptionText,
-		root:            root,
+
+		name:     name,
+		tags:     tags,
+		nameText: nameText,
+		tagsText: tagsText,
+		root:     root,
 	}
+}
+
+func (f *impl) GetTimestamp() time.Time {
+	return f.timestamp
 }
 
 func (f *impl) GetName() string {
@@ -68,13 +76,13 @@ func (f *impl) SetName(name string) ContentItem {
 	return f
 }
 
-func (f *impl) GetDescription() string {
-	return f.description
+func (f *impl) GetTags() []string {
+	return f.tags
 }
 
-func (f *impl) SetDescription(desc string) ContentItem {
-	f.description = desc
-	f.descriptionText.SetContents(desc)
+func (f *impl) SetTags(tags []string) ContentItem {
+	f.tags = tags
+	f.tagsText.SetContents(strings.Join(tags, " "))
 	return f
 }
 

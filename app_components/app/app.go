@@ -7,6 +7,7 @@ import (
 	"github.com/mieubrisse/teact/components"
 	"github.com/mieubrisse/teact/components/list"
 	"github.com/mieubrisse/teact/components/stylebox"
+	"time"
 )
 
 type App interface {
@@ -23,14 +24,15 @@ type appImpl struct {
 
 func New() App {
 	items := []content_item.ContentItem{
-		content_item.New().SetName("Pourover coffee").SetDescription("It takes so long to make though"),
-		content_item.New().SetName("Pizza").SetDescription("Pepperoni is the best"),
-		content_item.New().SetName("Jiu jitsu").SetDescription("Rolling all day"),
+		content_item.New(time.Now(), "foo.md", []string{"general-reference"}),
+		content_item.New(time.Now(), "bar-bang-baz.md", []string{"project-support/starlark"}),
+		content_item.New(time.Now(), "something-else.md", []string{"general-reference/wealthdraft"}),
 	}
 
 	itemsList := list.New[content_item.ContentItem]().SetItems(items)
 
-	root := stylebox.New(itemsList).SetStyle(lipgloss.NewStyle().Padding(1))
+	root := stylebox.New(itemsList).SetStyle(lipgloss.NewStyle().Padding(1, 2))
+	root = stylebox.New(root).SetStyle(lipgloss.NewStyle().Padding(1, 2))
 	return &appImpl{
 		itemsList: itemsList,
 		root:      root,
@@ -63,7 +65,7 @@ func (a *appImpl) Update(msg tea.Msg) tea.Cmd {
 				thingNumber := len(things)
 				newThing := content_item.New().
 					SetName(fmt.Sprintf("Thing #%v", thingNumber)).
-					SetDescription(fmt.Sprintf("This is thing %v", thingNumber))
+					SetTags(fmt.Sprintf("This is thing %v", thingNumber))
 				things = append(things, newThing)
 				a.contentList.SetItems(things)
 			} else if msg.String() == "backspace" {
