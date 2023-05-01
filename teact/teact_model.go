@@ -5,6 +5,7 @@ import (
 	"github.com/mieubrisse/teact/teact/components"
 	"github.com/mieubrisse/teact/teact/components/flexbox"
 	"github.com/mieubrisse/teact/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 // The root tea.Model that runs the Teact framework
@@ -81,7 +82,7 @@ func (impl *teactAppModelImpl) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 
 	// Pass the message down to the app, if it's interactive
-	cmd := components.TryUpdate(impl.app, msg)
+	cmd := utilities.TryUpdate(impl.app, msg)
 
 	return impl, cmd
 }

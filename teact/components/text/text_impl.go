@@ -2,6 +2,7 @@ package text
 
 import (
 	"github.com/charmbracelet/lipgloss"
+	"github.com/mieubrisse/teact/teact/utilities"
 	"github.com/muesli/reflow/ansi"
 	"github.com/muesli/reflow/wordwrap"
 	"strings"
@@ -75,12 +76,9 @@ func (t textImpl) View(width int, height int) string {
 	}
 
 	wrapped := wordwrap.String(t.text, width)
-	return lipgloss.NewStyle().Align(lipgloss.Position(t.alignment)).
-		// Width to expand to a block
-		Width(width).
-		// Truncate (we can't support overrun or any other behaviours)
-		MaxHeight(height).
-		Render(wrapped)
+	aligned := lipgloss.NewStyle().Align(lipgloss.Position(t.alignment)).Render(wrapped)
+
+	return utilities.Coerce(aligned, width, height)
 }
 
 // ====================================================================================================

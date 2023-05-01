@@ -2,7 +2,6 @@ package highlightable_list
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/teact/teact/components"
 	"github.com/mieubrisse/teact/teact/components/list"
 	"github.com/mieubrisse/teact/teact/utilities"
 )
@@ -85,7 +84,7 @@ func (impl *highlightableListImpl[T]) Update(msg tea.Msg) tea.Cmd {
 		return nil
 	}
 
-	return components.TryUpdate(items[impl.highlightedIdx], msg)
+	return utilities.TryUpdate(items[impl.highlightedIdx], msg)
 }
 
 func (impl *highlightableListImpl[T]) SetFocus(isFocused bool) tea.Cmd {

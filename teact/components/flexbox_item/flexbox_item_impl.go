@@ -2,8 +2,8 @@ package flexbox_item
 
 import (
 	"fmt"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 type flexboxItemImpl struct {
@@ -88,19 +88,7 @@ func (item *flexboxItemImpl) View(width int, height int) string {
 	// TODO allow column format
 	result := component.View(widthWhenRendering, height)
 
-	// Truncate, in case the inner item runs over (which will almost definitely be the case when overflowStyle = Truncate)
-	result = lipgloss.NewStyle().
-		MaxWidth(width).
-		MaxHeight(height).
-		Render(result)
-
-	// Now expand, in case the inner item is smaller than what we need
-	result = lipgloss.NewStyle().
-		Width(width).
-		Height(height).
-		Render(result)
-
-	return result
+	return utilities.Coerce(result, width, height)
 }
 
 func (item *flexboxItemImpl) GetComponent() components.Component {

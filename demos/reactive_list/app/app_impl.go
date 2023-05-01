@@ -10,7 +10,6 @@ type reactiveListAppImpl struct {
 }
 
 func New() ReactiveListApp {
-
 	root := stylebox.New()
 	return &reactiveListAppImpl{
 		Component: nil,
