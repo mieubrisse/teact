@@ -83,9 +83,9 @@ func (i *impl[T]) Update(msg tea.Msg) tea.Cmd {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
-		case "j":
+		case "j", "down":
 			i.Scroll(1)
-		case "k":
+		case "k", "up":
 			i.Scroll(-1)
 		}
 	}
