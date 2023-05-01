@@ -26,7 +26,7 @@ type scoreboardImpl struct {
 }
 
 func New(opts ...ScoreboardOpts) Scoreboard {
-	display := text.New()
+	display := text.New("")
 
 	result := &scoreboardImpl{
 		Component: display,
@@ -37,6 +37,7 @@ func New(opts ...ScoreboardOpts) Scoreboard {
 	for _, opt := range opts {
 		opt(result)
 	}
+	result.updateDisplay()
 	return result
 }
 

@@ -1,4 +1,4 @@
-package app
+package keypress_counter
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ type keypressCounterImpl struct {
 }
 
 func New() KeypressCounter {
-	output := text.New()
+	output := text.New("")
 	result := &keypressCounterImpl{
 		Component:   output,
 		keysPressed: 0,

@@ -14,9 +14,9 @@ type textImpl struct {
 	alignment TextAlignment
 }
 
-func New(opts ...TextOpt) Text {
+func New(contents string, opts ...TextOpt) Text {
 	result := &textImpl{
-		contents:  "",
+		contents:  contents,
 		alignment: AlignLeft,
 	}
 	for _, opt := range opts {

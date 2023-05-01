@@ -44,7 +44,7 @@ func New() Greeter {
 		[]flexbox_item.FlexboxItem{
 			flexbox_item.New(
 				stylebox.New(
-					text.New(text.WithContents("Hello, world!")),
+					text.New("Hello, world!"),
 					stylebox.WithStyle(
 						style.WithForeground(lipgloss.Color("#B6DCFE")),
 					),
@@ -194,7 +194,7 @@ Best Practices
     }
 
     func New() Greeter {
-        toUpdate := text.New(text.WithContents("Hello, World!"))
+        toUpdate := text.New("Hello, World!")
         root := flexbox.NewWithOpts(
             []flexbox_item.FlexboxItem{
                 flexbox_item.New(
