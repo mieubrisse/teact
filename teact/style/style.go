@@ -6,7 +6,7 @@ import "github.com/charmbracelet/lipgloss"
 
 type StyleOpt func(style lipgloss.Style) lipgloss.Style
 
-func WithForeground(color *lipgloss.Color) StyleOpt {
+func WithForeground(color lipgloss.Color) StyleOpt {
 	return func(style lipgloss.Style) lipgloss.Style {
 		return style.Foreground(color)
 	}

@@ -70,10 +70,9 @@ func (i *textInputImpl) Update(msg tea.Msg) tea.Cmd {
 func (i *textInputImpl) SetFocus(isFocused bool) tea.Cmd {
 	i.isFocused = isFocused
 	if isFocused {
-		i.innerInput.Focus()
-	} else {
-		i.innerInput.Blur()
+		return i.innerInput.Focus()
 	}
+	i.innerInput.Blur()
 	return nil
 }
 

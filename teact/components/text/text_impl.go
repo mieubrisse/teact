@@ -75,10 +75,21 @@ func (t textImpl) View(width int, height int) string {
 		return ""
 	}
 
-	wrapped := wordwrap.String(t.text, width)
-	aligned := lipgloss.NewStyle().Align(lipgloss.Position(t.alignment)).Render(wrapped)
+	result := wordwrap.String(t.text, width)
 
-	return utilities.Coerce(aligned, width, height)
+	// Ensure we have a string no more than max (though it may still be short)
+	result = lipgloss.NewStyle().MaxWidth(width).MaxHeight(height).Render(result)
+
+	// Now align (the string may still be short)
+	result = lipgloss.NewStyle().Align(lipgloss.Position(t.alignment)).Render(result)
+
+	// Place in the correct location
+	result = lipgloss.PlaceHorizontal(width, lipgloss.Position(t.alignment), result)
+
+	// Finally, coerce to expand if necessary
+	result = utilities.Coerce(result, width, height)
+
+	return result
 }
 
 // ====================================================================================================
