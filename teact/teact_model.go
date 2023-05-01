@@ -81,11 +81,7 @@ func (impl *teactAppModelImpl) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 
 	// Pass the message down to the app, if it's interactive
-	var cmd tea.Cmd
-	switch app := impl.app.(type) {
-	case components.InteractiveComponent:
-		cmd = app.Update(msg)
-	}
+	cmd := components.TryUpdate(impl.app, msg)
 
 	return impl, cmd
 }

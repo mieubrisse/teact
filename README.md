@@ -9,6 +9,10 @@ TODO:
 
 TODO explain the utility wrappers around `lipgloss.NewStyle()`
 
+TODO note about `RunTeact`
+
+TODO `PassEventToComponentIfPossible`
+
 Best Practices
 --------------
 Example non-interactive component:
