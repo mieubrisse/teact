@@ -1,10 +1,11 @@
-Teact
-=====
-Teact is a React-like framework built on top of Charm's [Bubbletea system](https://github.com/charmbracelet/bubbletea) that will make your TUIs easier to build, and responsive to terminal size. It's sort of like the browser renderer + HTML + CSS + Javascript, all in one.
+Teact 🍵
+========
+Teact is a React-like framework built on top of Charm's [Bubbletea system](https://github.com/charmbracelet/bubbletea) that will make your TUIs easier to build, and responsive to terminal size. It's like HTML + CSS + your browser's layout engine, all-in-one for the terminal.
 
-How to use it
--------------
-Every Teact app starts with a call to `teact.Run` in its `main.go`, to the component that will be the root of your application. For example:
+Basic Teact
+-----------
+### Teact Apps
+Every Teact app starts with a call to `teact.Run` in its `main.go`, to the component that will be the root of your application. For example, this runs a Hello World application ([source code here](https://github.com/mieubrisse/teact/blob/main/demos/hello_world/main.go)):
 
 ```go
 func main() {
@@ -16,44 +17,96 @@ func main() {
 }
 ```
 
-(you can follow along with this demo [here]
+Teact apps can be quit by default with `ctrl-c` or `ctrl-d` (and this can be changed).
 
-A Teact component is just an implementation of the `Component` interface, which provides size information to Teact's layout/rendering system. 
+### Teact Components
+A Teact component is just an implementation of the `Component` interface, which gives sizing information to Teact's layout/rendering system. You don't need to do any size calculations though, because Teact ships with several common components (e.g. flexbox, text, input field) so you can just compose them together to form your components. For example, here's the Hello World app component ([source code here](https://github.com/mieubrisse/teact/blob/main/demos/hello_world/app/app.go)):
 
-`Component`s are the building blocks of your application.
+```go
+// A custom component
+type HelloWorldApp interface {
+	components.Component
+}
 
+// Implementation of the custom component
+type helloWorldAppImpl struct {
+	// So long as we assign a component to this then our component will call down to it (via Go struct embedding)
+	components.Component
+}
 
+func New() HelloWorldApp {
+    // This is a tree, just like HTML, with leaf nodes indented the most
+	root := flexbox.NewWithOpts(
+		[]flexbox_item.FlexboxItem{
+			flexbox_item.New(
+				stylebox.New(
+					text.New("Hello, world!"),
+					stylebox.WithStyle(
+						style.WithForeground(lipgloss.Color("#B6DCFE")),
+					),
+				),
+			),
+		},
+		flexbox.WithVerticalAlignment(flexbox.AlignCenter),
+		flexbox.WithHorizontalAlignment(flexbox.AlignCenter),
+	)
 
+	return &helloWorldAppImpl{
+		Component: root,
+	}
+}
+```
 
+As long a component is assigned to the `Component` inner struct field, Teact will know how to render the object (via Go's struct embedding). In this way, you can simply build your custom components from preexisting components.
 
-Teact provides several built-in components (e.g. flexbox, list). You'll write components that compose these components (which can be composed even further).
+### Interactivity
+Interactivity is accomplished by making a component implement the `InteractiveComponent` interface, which in turn uses the Bubbletea `Update` function. For example, this component keeps track of the number of keypresses it's seen and displays it ([source code here]():
 
-You'll write custom components that compose. Teact provides several 
+```go
+type KeypressCounter interface {
+	components.InteractiveComponent
+}
 
+type keypressCounterImpl struct {
+	components.Component
 
-- Parents should resize based on the sizes of their children
-- 
+	keysPressed int
+	output      text.Text
+}
 
+func New() KeypressCounter {
+	output := text.New()
+	result := &keypressCounterImpl{
+		Component:   output,
+		keysPressed: 0,
+		output:      output,
+	}
+	result.updateOutputText()
+	return result
+}
 
+func (k *keypressCounterImpl) Update(msg tea.Msg) tea.Cmd {
+	if utilities.GetMaybeKeyMsgStr(msg) != "" {
+		k.keysPressed += 1
+		k.updateOutputText()
+	}
+	return nil
+}
 
+func (k keypressCounterImpl) SetFocus(isFocused bool) tea.Cmd {
+	return nil
+}
 
-It has several intents
+func (k keypressCounterImpl) IsFocused() bool {
+	return true
+}
 
-TODO:
-- Fix word wrapping
-- Add Flexbox
-- Add height
+func (b *keypressCounterImpl) updateOutputText() {
+	b.output.SetContents(fmt.Sprintf("You've pressed %v keys", b.keysPressed))
+}
+```
 
-TODO explain the utility wrappers around `lipgloss.NewStyle()`
-
-TODO note about `RunTeact`
-
-TODO `TryUpdate`
-
-TODO note about how putting a border around a thing is a good way to see what it's doing
-
-Why not vanilla Bubbletea?
---------------------------
+You can see that 
 
 Best Practices
 --------------
@@ -112,6 +165,40 @@ func (im *impl) SetProperty(val string) MyCustomComponent {
 - `Component` does not receive focus. Instead, your `InteractiveComponent`s should, in their `Update`, control and pass to the children they want
 - TODO something about `XXXXOpt` for components that contain other components?
 
+
+
+
+
+Teact provides several built-in components (e.g. flexbox, list). You'll write components that compose these components (which can be composed even further).
+
+You'll write custom components that compose. Teact provides several 
+
+
+- Parents should resize based on the sizes of their children
+- 
+
+
+
+
+It has several intents
+
+TODO:
+- Fix word wrapping
+- Add Flexbox
+- Add height
+
+TODO explain the utility wrappers around `lipgloss.NewStyle()`
+
+TODO note about `RunTeact`
+
+TODO `TryUpdate`
+
+TODO note about how putting a border around a thing is a good way to see what it's doing
+
+Why not vanilla Bubbletea?
+--------------------------
+
+
 TODO
 ====
 - Make every component styleable, so we don't need styleboxes everywhere???
@@ -119,3 +206,6 @@ TODO
 - Create a single "position" enum (so that we don't have different ones between flexbox and text, etc.)
 - Make flexbox alignments purely "MainAxis" and "CrossAxis", so that when flipping the box things will be nicer
 - Add Grid layout!!
+
+How Teact works
+---------------

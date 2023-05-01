@@ -9,14 +9,14 @@ import (
 )
 
 type textImpl struct {
-	text string
+	contents string
 
 	alignment TextAlignment
 }
 
-func New(text string, opts ...TextOpt) Text {
+func New(opts ...TextOpt) Text {
 	result := &textImpl{
-		text:      text,
+		contents:  "",
 		alignment: AlignLeft,
 	}
 	for _, opt := range opts {
@@ -26,11 +26,11 @@ func New(text string, opts ...TextOpt) Text {
 }
 
 func (t textImpl) GetContents() string {
-	return t.text
+	return t.contents
 }
 
 func (t *textImpl) SetContents(str string) Text {
-	t.text = str
+	t.contents = str
 	return t
 }
 
@@ -45,14 +45,14 @@ func (t *textImpl) SetTextAlignment(align TextAlignment) Text {
 
 func (t *textImpl) GetContentMinMax() (minWidth int, maxWidth int, minHeight int, maxHeight int) {
 	minWidth = 0
-	for _, field := range strings.Fields(t.text) {
+	for _, field := range strings.Fields(t.contents) {
 		printableWidth := ansi.PrintableRuneWidth(field)
 		if printableWidth > minWidth {
 			minWidth = printableWidth
 		}
 	}
 
-	maxWidth = lipgloss.Width(t.text)
+	maxWidth = lipgloss.Width(t.contents)
 
 	maxHeight = t.SetWidthAndGetDesiredHeight(minWidth)
 	minHeight = t.SetWidthAndGetDesiredHeight(maxWidth)
@@ -66,7 +66,7 @@ func (t textImpl) SetWidthAndGetDesiredHeight(width int) int {
 	}
 
 	// TODO cache this?
-	wrapped := wordwrap.String(t.text, width)
+	wrapped := wordwrap.String(t.contents, width)
 	return lipgloss.Height(wrapped)
 }
 
@@ -75,7 +75,7 @@ func (t textImpl) View(width int, height int) string {
 		return ""
 	}
 
-	result := wordwrap.String(t.text, width)
+	result := wordwrap.String(t.contents, width)
 
 	// Ensure we have a string no more than max (though it may still be short)
 	result = lipgloss.NewStyle().MaxWidth(width).MaxHeight(height).Render(result)

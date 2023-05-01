@@ -10,16 +10,19 @@ import (
 	"github.com/mieubrisse/teact/teact/style"
 )
 
+// A custom component
 type HelloWorldApp interface {
 	components.Component
 }
 
+// Implementation of the custom component
 type helloWorldAppImpl struct {
 	// So long as we assign a component to this then our component will call down to it (via Go struct embedding)
 	components.Component
 }
 
 func New() HelloWorldApp {
+	// This is a tree, just like HTML, with leaf nodes indented the most
 	root := flexbox.NewWithOpts(
 		[]flexbox_item.FlexboxItem{
 			flexbox_item.New(
