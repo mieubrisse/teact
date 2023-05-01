@@ -8,7 +8,7 @@ import (
 	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 	"github.com/mieubrisse/teact/teact/components/stylebox"
 	"github.com/mieubrisse/teact/teact/components/text"
-	"github.com/mieubrisse/teact/teact/style"
+	"github.com/mieubrisse/teact/teact/utilities"
 	"strconv"
 )
 
@@ -16,16 +16,16 @@ const (
 	unknownName = "Anonymous Agent"
 )
 
-var normalTextStyle = style.NewStyle(
-	style.WithForeground(colors.Platinum),
+var normalTextStyle = utilities.NewStyle(
+	utilities.WithForeground(colors.Platinum),
 )
-var nameStyle = style.NewStyle(
-	style.WithForeground(colors.Tomato),
-	style.WithBold(true),
+var nameStyle = utilities.NewStyle(
+	utilities.WithForeground(colors.Tomato),
+	utilities.WithBold(true),
 )
-var ageStyle = style.NewStyle(
-	style.WithForeground(colors.VividSkyBlue),
-	style.WithBold(true),
+var ageStyle = utilities.NewStyle(
+	utilities.WithForeground(colors.VividSkyBlue),
+	utilities.WithBold(true),
 )
 
 type bioCardImpl struct {

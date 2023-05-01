@@ -7,7 +7,7 @@ import (
 	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 	"github.com/mieubrisse/teact/teact/components/stylebox"
 	"github.com/mieubrisse/teact/teact/components/text"
-	"github.com/mieubrisse/teact/teact/style"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 // A custom component
@@ -29,7 +29,7 @@ func New() Greeter {
 				stylebox.New(
 					text.New(text.WithContents("Hello, world!")),
 					stylebox.WithStyle(
-						style.WithForeground(lipgloss.Color("#B6DCFE")),
+						utilities.WithForeground(lipgloss.Color("#B6DCFE")),
 					),
 				),
 			),

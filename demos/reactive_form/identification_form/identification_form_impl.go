@@ -10,7 +10,6 @@ import (
 	"github.com/mieubrisse/teact/teact/components/stylebox"
 	"github.com/mieubrisse/teact/teact/components/text"
 	"github.com/mieubrisse/teact/teact/components/text_input"
-	"github.com/mieubrisse/teact/teact/style"
 	"github.com/mieubrisse/teact/teact/utilities"
 	"strconv"
 )
@@ -39,8 +38,8 @@ func New(opts ...IdentificationFormOpts) IdentificationForm {
 					stylebox.New(
 						text.New("IDENTIFICATION", text.WithAlign(text.AlignCenter)),
 						stylebox.WithStyle(
-							style.WithBold(true),
-							style.WithForeground(colors.Platinum),
+							utilities.WithBold(true),
+							utilities.WithForeground(colors.Platinum),
 						),
 					),
 					flexbox_item.WithHorizontalGrowthFactor(1),
@@ -52,8 +51,8 @@ func New(opts ...IdentificationFormOpts) IdentificationForm {
 								stylebox.New(
 									text.New("Name: "),
 									stylebox.WithStyle(
-										style.WithForeground(colors.Platinum),
-										style.WithBold(true),
+										utilities.WithForeground(colors.Platinum),
+										utilities.WithBold(true),
 									),
 								),
 							),
@@ -70,8 +69,8 @@ func New(opts ...IdentificationFormOpts) IdentificationForm {
 								stylebox.New(
 									text.New("Age: "),
 									stylebox.WithStyle(
-										style.WithForeground(colors.Platinum),
-										style.WithBold(true),
+										utilities.WithForeground(colors.Platinum),
+										utilities.WithBold(true),
 									),
 								),
 							),
@@ -86,8 +85,8 @@ func New(opts ...IdentificationFormOpts) IdentificationForm {
 			flexbox.WithHorizontalAlignment(flexbox.AlignCenter),
 		),
 		stylebox.WithStyle(
-			style.WithPadding(0, 1, 0, 1),
-			style.WithBorder(lipgloss.NormalBorder()),
+			utilities.WithPadding(0, 1, 0, 1),
+			utilities.WithBorder(lipgloss.NormalBorder()),
 		),
 	)
 

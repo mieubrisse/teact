@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+// An aassertion on a component
 type ComponentAssertion interface {
 	Check(t *testing.T, component components.Component)
 }

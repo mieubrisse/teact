@@ -8,7 +8,7 @@ import (
 	"github.com/mieubrisse/teact/teact/components/list"
 	"github.com/mieubrisse/teact/teact/components/stylebox"
 	"github.com/mieubrisse/teact/teact/components/text"
-	"github.com/mieubrisse/teact/teact/style"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 // This is an app with a sidebar (like we'd see on websites), but which switches to a stacked orientation when
@@ -32,9 +32,9 @@ func New() ReactiveMenuApp {
 			text.New("Docs", text.WithAlign(text.AlignCenter)),
 			text.New("About", text.WithAlign(text.AlignCenter)),
 		).SetHorizontalAlignment(flexbox.AlignCenter),
-		stylebox.WithExistingStyle(style.NewStyle(
-			style.WithBorder(lipgloss.NormalBorder()),
-			style.WithPadding(0, 1),
+		stylebox.WithExistingStyle(utilities.NewStyle(
+			utilities.WithBorder(lipgloss.NormalBorder()),
+			utilities.WithPadding(0, 1),
 		)),
 	)
 
@@ -44,9 +44,9 @@ func New() ReactiveMenuApp {
 				"on this continent, a new nation, conceived in Liberty, and dedicated to the "+
 				"proposition that all men are created equal.",
 		),
-		stylebox.WithExistingStyle(style.NewStyle(
-			style.WithPadding(0, 1, 0, 1),
-			style.WithBorder(lipgloss.NormalBorder()),
+		stylebox.WithExistingStyle(utilities.NewStyle(
+			utilities.WithPadding(0, 1, 0, 1),
+			utilities.WithBorder(lipgloss.NormalBorder()),
 		)),
 	)
 

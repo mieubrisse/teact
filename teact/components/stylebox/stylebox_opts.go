@@ -2,13 +2,13 @@ package stylebox
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/teact/style"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 type StyleboxOpt func(Stylebox)
 
 // Convenience function for styling the stylebox with a new lipgloss.Style
-func WithStyle(styleOpts ...style.StyleOpt) StyleboxOpt {
+func WithStyle(styleOpts ...utilities.StyleOpt) StyleboxOpt {
 	return func(box Stylebox) {
 		newStyle := lipgloss.NewStyle()
 		for _, opt := range styleOpts {

@@ -10,7 +10,7 @@ import (
 	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 	"github.com/mieubrisse/teact/teact/components/stylebox"
 	"github.com/mieubrisse/teact/teact/components/text"
-	"github.com/mieubrisse/teact/teact/style"
+	"github.com/mieubrisse/teact/teact/utilities"
 )
 
 const (
@@ -52,8 +52,8 @@ func New() SecretAgentTerminal {
 	appTitle := stylebox.New(
 		text.New("SECRET AGENT TERMINAL APP", text.WithAlign(text.AlignCenter)),
 		stylebox.WithStyle(
-			style.WithForeground(colors.VividSkyBlue),
-			style.WithBold(true),
+			utilities.WithForeground(colors.VividSkyBlue),
+			utilities.WithBold(true),
 		),
 	)
 
@@ -74,7 +74,7 @@ func New() SecretAgentTerminal {
 
 	root = stylebox.New(
 		root,
-		stylebox.WithStyle(style.WithPadding(1, 2, 1, 2)),
+		stylebox.WithStyle(utilities.WithPadding(1, 2, 1, 2)),
 	)
 
 	result := &secretAgentTerminalImpl{
