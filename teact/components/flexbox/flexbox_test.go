@@ -2,10 +2,9 @@ package flexbox
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mieubrisse/teact/components/flexbox_item"
-	flexbox_item2 "github.com/mieubrisse/teact/teact/components/flexbox_item"
+	"github.com/mieubrisse/teact/teact/components/flexbox_item"
 	"github.com/mieubrisse/teact/teact/components/stylebox"
-	test_assertions2 "github.com/mieubrisse/teact/teact/components/test_assertions"
+	"github.com/mieubrisse/teact/teact/components/test_assertions"
 	"github.com/mieubrisse/teact/teact/components/text"
 	"testing"
 )
@@ -16,17 +15,22 @@ func TestColumnLayout(t *testing.T) {
 		SetStyle(lipgloss.NewStyle().BorderStyle(lipgloss.NormalBorder()))
 	child3 := text.New("This is child 3")
 
-	flexbox := NewWithContents(
-		flexbox_item2.New(child1),
-		flexbox_item2.New(child2),
-		flexbox_item2.New(child3),
-	).SetHorizontalAlignment(AlignCenter).SetVerticalAlignment(AlignCenter).SetDirection(Column)
+	flexbox := NewWithOpts(
+		[]flexbox_item.FlexboxItem{
+			flexbox_item.New(child1),
+			flexbox_item.New(child2),
+			flexbox_item.New(child3),
+		},
+		WithHorizontalAlignment(AlignCenter),
+		WithVerticalAlignment(AlignCenter),
+		WithDirection(Column),
+	)
 
 	width, height := 30, 30
 
-	assertions := test_assertions2.FlattenAssertionGroups(
-		test_assertions2.GetDefaultAssertions(),
-		test_assertions2.GetContentSizeAssertions(
+	assertions := test_assertions.FlattenAssertionGroups(
+		test_assertions.GetDefaultAssertions(),
+		test_assertions.GetContentSizeAssertions(
 			7,
 			17,
 			5,
@@ -39,7 +43,7 @@ func TestColumnLayout(t *testing.T) {
 	flexbox.SetWidthAndGetDesiredHeight(width)
 	flexbox.View(width, height)
 
-	test_assertions2.CheckAll(t, assertions, flexbox)
+	test_assertions.CheckAll(t, assertions, flexbox)
 }
 
 /*
@@ -80,12 +84,17 @@ func TestFixedSizeItem(t *testing.T) {
 
 	style := lipgloss.NewStyle().BorderStyle(lipgloss.NormalBorder())
 
-	box := NewWithContents(
-		flexbox_item2.New(stylebox.New(nameText).SetStyle(style)).
-			SetMinWidth(flexbox_item2.FixedSize(60)).
-			SetMaxWidth(flexbox_item2.FixedSize(60)),
-		flexbox_item2.New(text.New(" ")),
-		flexbox_item2.New(stylebox.New(descriptionText).SetStyle(style)).SetMaxWidth(flexbox_item.MaxAvailable),
+	box := New(
+		flexbox_item.New(
+			stylebox.New(nameText, stylebox.WithStyle(style)),
+			flexbox_item.WithMinWidth(flexbox_item.FixedSize(60)),
+			flexbox_item.WithMaxWidth(flexbox_item.FixedSize(60)),
+		),
+		flexbox_item.New(text.New(" ")),
+		flexbox_item.New(
+			stylebox.New(descriptionText, stylebox.WithStyle(style)),
+			flexbox_item.WithHorizontalGrowthFactor(1),
+		),
 	)
 
 	width, height := 170, 30
