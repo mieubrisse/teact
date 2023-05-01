@@ -30,12 +30,15 @@ func New(opts ...TextInputOpt) TextInput {
 func (i *textInputImpl) GetContentMinMax() (int, int, int, int) {
 	value := i.innerInput.Value()
 
-	maxWidth := lipgloss.Width(value) + 1 // Plus one to account for the cursor
+	maxWidth := lipgloss.Width(value)
 	minWidth := 0
 	for _, field := range strings.Fields(value) {
 		minWidth = utilities.GetMaxInt(minWidth, lipgloss.Width(field))
 	}
-	minWidth += 1 // Cursor
+
+	// Add one to each to account for the cursor
+	minWidth += 1
+	maxWidth += 1
 
 	return minWidth, maxWidth, 1, 1
 }
