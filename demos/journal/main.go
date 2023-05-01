@@ -12,7 +12,7 @@ func main() {
 	myApp := app.New()
 	myApp.SetFocus(true)
 
-	if _, err := teact.RunTeactApp(
+	if _, err := teact.RunTeact(
 		myApp,
 		nil,
 		[]tea.ProgramOption{

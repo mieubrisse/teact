@@ -2,18 +2,18 @@ package teact
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	components2 "github.com/mieubrisse/teact/teact/components"
+	"github.com/mieubrisse/teact/teact/components"
 )
 
-func RunTeactApp[T components2.Component](
-	appComponent T,
-	bubbleBathOptions []TeactOpt,
-	teaOptions []tea.ProgramOption,
+// Simple way to run a Teact program
+// If you need more complex configuration, use RunTeactFromModel
+func RunTeact[T components.Component](
+	yourApp T,
+	bubbleTeaOpts ...tea.ProgramOption,
 ) (T, error) {
-	model := New(appComponent, bubbleBathOptions...)
-
-	finalModel, err := tea.NewProgram(model, teaOptions...).Run()
-	castedModel := finalModel.(*impl)
-	castedAppComponent := castedModel.app.(T)
-	return castedAppComponent, err
+	model := New(yourApp)
+	finalModel, err := tea.NewProgram(model, bubbleTeaOpts...).Run()
+	castedModel := finalModel.(TeactModel)
+	castedUserComponent := castedModel.GetInnerComponent().(T)
+	return castedUserComponent, err
 }

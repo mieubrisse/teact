@@ -11,13 +11,7 @@ import (
 func main() {
 	myApp := app.New()
 
-	if _, err := teact.RunTeactApp(
-		myApp,
-		nil,
-		[]tea.ProgramOption{
-			tea.WithAltScreen(),
-		},
-	); err != nil {
+	if _, err := teact.RunTeact(myApp, tea.WithAltScreen()); err != nil {
 		fmt.Printf("An error occurred running the program:\n%v", err)
 		os.Exit(1)
 	}
