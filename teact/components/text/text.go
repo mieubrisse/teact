@@ -8,14 +8,6 @@ import (
 	"strings"
 )
 
-type TextOpt func(Text)
-
-func WithAlign(align TextAlignment) TextOpt {
-	return func(text Text) {
-		text.SetTextAlignment(align)
-	}
-}
-
 type TextAlignment lipgloss.Position
 
 const (

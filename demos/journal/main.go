@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mieubrisse/teact/bubblebath"
 	"github.com/mieubrisse/teact/demos/journal/app"
+	"github.com/mieubrisse/teact/teact"
 	"os"
 )
 
@@ -12,7 +12,7 @@ func main() {
 	myApp := app.New()
 	myApp.SetFocus(true)
 
-	if _, err := bubblebath.RunBubbleBathProgram(
+	if _, err := teact.RunTeactApp(
 		myApp,
 		nil,
 		[]tea.ProgramOption{

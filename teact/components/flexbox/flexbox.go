@@ -50,29 +50,23 @@ type flexboxImpl struct {
 	desiredChildHeightsGivenWidthCache []int
 }
 
-// Convenience constructor for a box with a single element
-func NewWithContent(component components.Component, opts ...flexbox_item.FlexboxItemOpt) Flexbox {
-	item := flexbox_item.New(component)
-	for _, opt := range opts {
-		opt(item)
-	}
-	return NewWithContents(item)
-}
-
-// Convenience constructor for a box with multiple elements
-func NewWithContents(items ...flexbox_item.FlexboxItem) Flexbox {
-	return New().SetChildren(items)
-}
-
-func New() Flexbox {
+func New(items ...flexbox_item.FlexboxItem) Flexbox {
 	return &flexboxImpl{
-		children:                           make([]flexbox_item.FlexboxItem, 0),
+		children:                           items,
 		direction:                          Row,
 		horizontalAlignment:                AlignStart,
 		verticalAlignment:                  AlignStart,
 		actualChildWidthsCache:             axisSizeCalculationResults{},
 		desiredChildHeightsGivenWidthCache: nil,
 	}
+}
+
+func NewWithOpts(items []flexbox_item.FlexboxItem, opts ...FlexboxOpt) Flexbox {
+	result := New(items...)
+	for _, opt := range opts {
+		opt(result)
+	}
+	return result
 }
 
 func (b *flexboxImpl) GetChildren() []flexbox_item.FlexboxItem {
