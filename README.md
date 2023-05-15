@@ -2,6 +2,8 @@ Teact 🍵
 ========
 Teact is a React-like abstraction built on top of Charm's [Bubbletea system](https://github.com/charmbracelet/bubbletea) that will make your TUIs easier to build, and responsive to terminal size. It's like HTML + CSS + your browser's layout engine, all-in-one for the terminal.
 
+<img src="./demo.gif" width="1728">
+
 Basic Teact
 -----------
 ### Teact Apps
